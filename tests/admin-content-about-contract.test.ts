@@ -19,7 +19,7 @@ const sourceState = {
 
 const createSourceText = () => [
   '---',
-  'legacyNote: 保留未知 frontmatter',
+  'legacyNote: keep unknown frontmatter',
   'legacyFlag: true',
   '---',
   '',
@@ -46,7 +46,7 @@ describe('admin about content contract', () => {
     expect(createAdminAboutEditorValues()).toEqual({});
     expect(isAdminAboutFrontmatterIssuePath()).toBe(false);
     expect(isAdminAboutFrontmatterIssuePath('legacyNote' as never)).toBe(false);
-    expect(getAdminAboutWriteFieldLabel('body')).toBe('正文');
+    expect(getAdminAboutWriteFieldLabel('body')).toBe('Body');
     expect(getAdminAboutWriteFieldLabel('unknown')).toBe('unknown');
   });
 
@@ -62,7 +62,7 @@ describe('admin about content contract', () => {
       plan.patches,
       plan.bodyText
     );
-    expect(nextSource).toContain('legacyNote: 保留未知 frontmatter');
+    expect(nextSource).toContain('legacyNote: keep unknown frontmatter');
     expect(nextSource).toContain('legacyFlag: true');
     expect(nextSource.endsWith('\nupdated about body\n')).toBe(true);
   });

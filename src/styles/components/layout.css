@@ -1,10 +1,10 @@
 /* Layout
-   负责壳/导航/内容区/页面头与侧栏按钮；禁止放内容块（prose/callout/code-block/figure）、
-   页面卡片样式或页面私有调优。
+   Handles the shell/navigation/content area/page header and sidebar buttons; do not put content blocks (prose/callout/code-block/figure),
+   page card styles, or page-private tweaks here.
 */
 
 /* ===============================
-   布局结构
+   Layout structure
 ================================ */
 .shell {
   min-height: 100vh;
@@ -33,7 +33,7 @@
 }
 
 /* ===============================
-   侧边栏与导航
+   Sidebar and navigation
 ================================ */
 .sidebar {
   padding: 55px 24px;
@@ -155,7 +155,7 @@
 }
 
 /* ===============================
-   内容区域
+   Content area
 ================================ */
 .content {
   padding: 56px var(--pad-x);
@@ -185,7 +185,7 @@
 }
 
 /* ===============================
-   页面头部
+   Page header
 ================================ */
 .page-title {
   font-size: 26px;
@@ -294,7 +294,7 @@
   border-bottom-color: var(--accent);
 }
 
-/* 文章上下篇导航 */
+/* Previous/next article navigation */
 .prev-next {
   margin-top: 28px;
   display: flex;
@@ -358,7 +358,7 @@
   min-height: 48px;
 }
 
-/* Admin rail：窄屏与页面级 rail 共用同一套声明。 */
+/* Admin rail: the narrow-screen and page-level rails share the same set of declarations. */
 body.admin-page {
   --admin-rail-width: 52px;
   --admin-rail-item-size: 44px;
@@ -825,7 +825,7 @@ body.admin-page .sidebar-actions .icon-button[data-tooltip]::after {
   }
 }
 
-/* 公开站点窄屏壳层；后台路由通过 body.admin-page 保持桌面工具布局。 */
+/* Public-site narrow-screen shell; admin routes keep the desktop tool layout via body.admin-page. */
 @media (max-width: 900px) {
   :where(body:not(.admin-page)) .shell {
     grid-template-columns: 1fr;
@@ -992,7 +992,7 @@ body.admin-page .sidebar-actions .icon-button[data-tooltip]::after {
 
 }
 
-/* 侧栏底部按钮组 */
+/* Sidebar bottom button group */
 .sidebar-actions {
   margin-top: auto;
   display: inline-flex;
@@ -1008,7 +1008,7 @@ body.admin-page .sidebar-actions .icon-button[data-tooltip]::after {
   }
 }
 
-/* 图标按钮基础样式 */
+/* Icon button base styles */
 .icon-button {
   width: 34px;
   height: 34px;
@@ -1040,7 +1040,7 @@ body.admin-page .sidebar-actions .icon-button[data-tooltip]::after {
   transform: none;
 }
 
-/* 图标悬停提示 */
+/* Icon hover tooltip */
 .sidebar-actions .icon-button[data-tooltip] {
   position: relative;
 }
@@ -1096,7 +1096,7 @@ body.admin-page .sidebar-actions .icon-button[data-tooltip]::after {
   transform: scale(1.06);
 }
 
-/* 主题切换按钮 */
+/* Theme toggle button */
 .theme-toggle {
   align-self: center;
 }
@@ -1143,7 +1143,7 @@ body.admin-page .sidebar-actions .icon-button[data-tooltip]::after {
   display: none;
 }
 
-/* 阅读模式按钮（侧栏） */
+/* Reading mode button (sidebar) */
 .reader-toggle .icon-book-closed {
   display: none;
 }
@@ -1178,7 +1178,7 @@ body[data-reading="immersive"] .reader-toggle .icon-book-open {
   }
 }
 
-/* 阅读模式退出按钮（正文） */
+/* Reading mode exit button (body) */
 .reader-exit-anchor {
   position: relative;
 }
@@ -1207,7 +1207,7 @@ body[data-reading="immersive"] .reader-toggle .icon-book-open {
   height: 20px;
 }
 
-/* 浮动动作按钮（回到顶部 / 阅读模式浮层） */
+/* Floating action button (back to top / reading mode overlay) */
 .float-action {
   --float-bottom: calc(16px + env(safe-area-inset-bottom));
   --float-gap: 10px;
@@ -1262,7 +1262,7 @@ body[data-reading="immersive"] .reader-toggle .icon-book-open {
   }
 }
 
-/* 阅读模式：隐藏侧栏/导航/页脚，增强正文可读性 */
+/* Reading mode: hide the sidebar/navigation/footer and boost body readability */
 body.immersive-page[data-reading="immersive"] .sidebar,
 body.immersive-page[data-reading="immersive"] .divider,
 body.immersive-page[data-reading="immersive"] .site-footer {

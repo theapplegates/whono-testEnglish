@@ -82,13 +82,13 @@ export const validateAdminJsonWriteRequest = (
   request: Request,
   currentUrl: URL,
   targetLabel: string,
-  actionLabel = '写入'
+  actionLabel = 'write'
 ): AdminWriteRequestValidation | null => {
   const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
   if (!contentType.includes('application/json')) {
     return {
       status: 415,
-      error: `仅允许 application/json 请求${actionLabel} ${targetLabel}`
+      error: `Only application/json requests may ${actionLabel} ${targetLabel}`
     };
   }
 
@@ -100,14 +100,14 @@ export const validateAdminJsonWriteRequest = (
   if (!requestOrigin) {
     return {
       status: 403,
-      error: `${actionLabel}请求缺少来源标识，仅允许从当前开发站点同源提交`
+      error: `${actionLabel} request is missing the origin identifier; only same-origin submits from the current dev site are allowed`
     };
   }
 
   if (requestOrigin !== currentOrigin) {
     return {
       status: 403,
-      error: `仅允许从当前开发站点同源${actionLabel} ${targetLabel}`
+      error: `Only same-origin requests from the current dev site may ${actionLabel} ${targetLabel}`
     };
   }
 
@@ -118,13 +118,13 @@ export const validateAdminFormDataWriteRequest = (
   request: Request,
   currentUrl: URL,
   targetLabel: string,
-  actionLabel = '上传'
+  actionLabel = 'upload'
 ): AdminWriteRequestValidation | null => {
   const contentType = request.headers.get('content-type')?.toLowerCase() ?? '';
   if (!contentType.includes('multipart/form-data')) {
     return {
       status: 415,
-      error: `仅允许 multipart/form-data 请求${actionLabel} ${targetLabel}`
+      error: `Only multipart/form-data requests may ${actionLabel} ${targetLabel}`
     };
   }
 
@@ -136,14 +136,14 @@ export const validateAdminFormDataWriteRequest = (
   if (!requestOrigin) {
     return {
       status: 403,
-      error: `${actionLabel}请求缺少来源标识，仅允许从当前开发站点同源提交`
+      error: `${actionLabel} request is missing the origin identifier; only same-origin submits from the current dev site are allowed`
     };
   }
 
   if (requestOrigin !== currentOrigin) {
     return {
       status: 403,
-      error: `仅允许从当前开发站点同源${actionLabel} ${targetLabel}`
+      error: `Only same-origin requests from the current dev site may ${actionLabel} ${targetLabel}`
     };
   }
 
@@ -184,7 +184,7 @@ export const readAdminJsonRequestBody = async (
     return {
       ok: false,
       status: 400,
-      error: '请求体不是合法 JSON'
+      error: 'The request body is not valid JSON'
     };
   }
 };

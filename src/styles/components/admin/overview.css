@@ -1,5 +1,5 @@
 /* Site Overview
-   /admin/ 根页的站点报告布局。保持无卡片结构，以分隔线、比例条和点阵表达信息层级。
+   Site report layout for the /admin/ root page. Keep it card-free and express information hierarchy with dividers, proportion bars, and dot grids.
 */
 
 .admin-site-overview {

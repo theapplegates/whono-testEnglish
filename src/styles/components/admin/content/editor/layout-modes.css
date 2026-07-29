@@ -1,5 +1,5 @@
 /* Admin Content Editor Layout Modes
-   承载 data-layout/data-effective-view 覆盖与底部 actions；必须在 workspace、toolbar 和 pane-content 后导入。
+   Holds data-layout/data-effective-view overrides and the bottom actions; must be imported after workspace, toolbar, and pane-content.
 */
 
 .admin-editor-shell[data-effective-view='edit'] .admin-editor-shell__workspace,

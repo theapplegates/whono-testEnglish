@@ -1,5 +1,5 @@
 /* Admin Images Responsive
-   负责 Images 容器宽度收口与保留的 viewport 边界。
+   Handles the Images container width cap and the preserved viewport boundaries.
 */
 
 @container admin-images-console (max-width: 660px) {

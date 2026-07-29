@@ -1,80 +1,80 @@
 ---
-title: "生活小记"
-subtitle: "不曾虚度的光"
+title: "Life Notes"
+subtitle: "Light not wasted"
 date: 2026-01-10
 draft: false
 ---
 
-时间流经我们，如同风穿过回廊。
-<br />总有一些瞬间，携带着特别的气息或光亮，短暂停留后便消散。
-<br />有些感受，无法被镜头承载，有些记忆难以被影像收藏。
-<br />也许，为瞬间的感受留下一份文字备份，正是抵抗遗忘最温柔却最有效的方式。
+Time passes through us, like wind through a corridor.
+<br />Some moments carry a particular scent or light, lingering briefly before they fade.
+<br />Some feelings cannot be carried by a lens; some memories are hard for an image to hold.
+<br />Perhaps keeping a written backup of a fleeting feeling is the gentlest yet most effective way to resist forgetting.
 
-## 2025年记
+## 2025 notes
 
-### 新屋
+### New place
 
-搬家当晚把小灯放在地上，屋里还堆着箱子。我们用纸箱当桌子，吃了顿外卖。第二天起床才觉得正式住进来。
+On moving night we set a small lamp on the floor, the room still piled with boxes. We used a cardboard box as a table and had takeout. Only after waking the next day did it feel like we had truly moved in.
 
-### 小城远行
+### A trip to a small town
 
-临时决定去海边小城，清晨到站，先在站前吃了热豆浆。沿堤走一圈，海风把帽子吹得东倒西歪。回来时把车票夹进钱包。
+A spur-of-the-moment trip to a seaside town. We arrived at dawn and had hot soy milk by the station first. A walk along the breakwater, the sea wind knocking the hat every which way. On the way back, the ticket got tucked into the wallet.
 
-### 夜归
+### Home at night
 
-晚上回到常走的路口，店名换了两次。雨刚停，路面反光。站了一会儿才走。
+Returning at night to a familiar corner, the shop's sign had changed twice. The rain had just stopped, the road reflecting light. We stood a while before walking on.
 
-### 旧书店
+### Old bookshop
 
-下雨时躲进旧书店，门口的小铃一直响。挑了本二手散文，在店里看了几页。老板用旧报纸包书。
+Ducking into an old bookshop in the rain, the little bell by the door kept ringing. Picked a secondhand essay collection and read a few pages in the shop. The owner wrapped the book in old newspaper.
 
-### 烛光饭
+### Dinner by candlelight
 
-一次停电，点蜡烛吃饭。菜很简单，屋里却安静得能听见雨声。后来把备用蜡烛补齐。
+Once the power went out, we ate by candlelight. The food was simple, but the room was so quiet you could hear the rain. Later we restocked the spare candles.
 
-### 相框合影
+### A framed pair
 
-整理相册时挑两张旧照片放在同一相框里。放在窗边，早上光线刚好。路过就会多看一眼。
+Sorting through photos, we picked two old ones for the same frame. Set by the window, the morning light was just right. We'd glance over every time we passed.
 
-### 久别相聚
+### Reunion after long apart
 
-多年未见的朋友来访，一起散步到河边。聊到很晚，还是很多话没说完。临走前约好下次别隔太久。
+A friend I hadn't seen in years came to visit; we walked down to the river together. Talked late into the night, still with plenty left unsaid. Before parting we agreed not to let it be so long next time.
 
-### 夜跑路
+### Night run route
 
-转凉后开始夜跑，固定一条长街。路灯一盏盏过去，脚步声很清楚。回家后睡得踏实。
+Once it turned cool I started night runs along a fixed long street. Streetlamps passed one by one, my footsteps clear. I slept soundly after getting home.
 
-> 这一年没有大事，但留下不少可以回想的瞬间。
+> Nothing big happened this year, but quite a few moments worth looking back on.
 
-## 2024年记
+## 2024 notes
 
-### 河边晚
+### River at dusk
 
-傍晚去河边坐一会儿，远处有人放音乐。风不大，水面有细碎的光。坐到天黑才回。
+At dusk I went to sit by the river for a while; someone was playing music in the distance. The wind was light, and fine glints of light danced on the water. I sat until dark before heading back.
 <figure class="figure">
-  <img src="/images/memo/demo-memo-01.webp" alt="图注示例图片 1" />
-  <figcaption class="figure-caption">图注示例：这是图片的说明文字。</figcaption>
+  <img src="/images/memo/demo-memo-01.webp" alt="Caption example image 1" />
+  <figcaption class="figure-caption">Caption example: this is the image description.</figcaption>
 </figure>
 
-### 手写信
+### A handwritten letter
 
-给远方朋友写了封信，用掉两张纸。写到最后才发现，很多话平时不会说。寄出前又读了一遍。
+I wrote a letter to a faraway friend and used up two sheets. Only at the end did I realize how much I normally wouldn't say. I read it once more before sending it off.
 
-### 小城旅
+### A short trip to a small town
 
-周末去了附近小城，吃了当地早餐。带回几张明信片，贴在书桌前。那趟路短，但很舒服。
+On the weekend I went to a nearby small town and had the local breakfast. Brought back a few postcards and stuck them by the desk. A short trip, but a comfortable one.
 
-## 2023年记
+## 2023 notes
 
-### 初雪
+### First snow
 
-第一场雪下得很轻，街上很安静。站在窗前看了很久。
+The first snow fell very lightly, and the street was quiet. I stood at the window and watched for a long time.
 
 
-### 书角落
+### The book corner
 
-把旧书架重新刷漆，摆上常读的书。特地留了一层空位。夜里开一盏小灯坐一会儿。
+I repainted the old bookshelf and set out the books I reread often. Left one shelf empty on purpose. At night I'd turn on a small lamp and sit a while.
 
-### 旧友再见
+### Seeing an old friend again
 
-久别的朋友聚在一起吃饭。大家都变了些，但笑起来还是熟悉。散场时心里很暖。
+Old friends, long apart, gathered for a meal. Everyone had changed a little, but the laughter was still familiar. I felt warm as we parted.

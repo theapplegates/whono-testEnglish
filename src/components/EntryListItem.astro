@@ -22,7 +22,7 @@ const {
 
 const shouldShowMetaLine = articleMetaSettings.showDate || (articleMetaSettings.showTags && visibleTags.length > 0);
 const displayDate = updatedAt ?? date;
-const displayDateLabel = updatedAt ? '更新于：' : (articleMetaSettings.dateLabel ?? '');
+const displayDateLabel = updatedAt ? 'Updated:' : (articleMetaSettings.dateLabel ?? '');
 ---
 
 <a class="list-item list-item--link" href={href}>
@@ -34,7 +34,7 @@ const displayDateLabel = updatedAt ? '更新于：' : (articleMetaSettings.dateL
     <div class="meta-line meta-line--items">
       {articleMetaSettings.showDate ? (
         <span class="meta-line__item">
-          <time datetime={displayDate.toISOString()}>{`${displayDateLabel}${formatISODateUtc(displayDate)}`}</time>
+          <time datetime={displayDate.toISOString()}>{`${displayDateLabel ? `${displayDateLabel} ` : ''}${formatISODateUtc(displayDate)}`}</time>
         </span>
       ) : null}
       {articleMetaSettings.showTags && visibleTags.length ? (

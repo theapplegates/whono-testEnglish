@@ -30,10 +30,10 @@ const mockedSourceIndex = vi.mocked(sourceIndexModule);
 const { getAdminContentEntryListHref } = contentRoutesModule;
 
 const COLLECTION_LABELS: Record<AdminContentCollectionKey, string> = {
-  essay: '随笔',
-  bits: '絮语',
-  memo: '小记',
-  about: '关于'
+  essay: 'Essays',
+  bits: 'Bits',
+  memo: 'Memo',
+  about: 'About'
 };
 
 const defaultManifest: AdminContentSourceManifest = {
@@ -334,11 +334,11 @@ describe('admin-console/content', () => {
       hasNext: false
     });
     expect(pageData.collectionOptions).toEqual([
-      { value: 'all', label: '全部内容', count: 5 },
-      { value: 'essay', label: '随笔', count: 2 },
-      { value: 'bits', label: '絮语', count: 1 },
-      { value: 'memo', label: '小记', count: 1 },
-      { value: 'about', label: '关于', count: 1 }
+      { value: 'all', label: 'All content', count: 5 },
+      { value: 'essay', label: 'Essays', count: 2 },
+      { value: 'bits', label: 'Bits', count: 1 },
+      { value: 'memo', label: 'Memo', count: 1 },
+      { value: 'about', label: 'About', count: 1 }
     ]);
     expect('tagOptions' in pageData).toBe(false);
     expect(pageData.sections).toHaveLength(1);

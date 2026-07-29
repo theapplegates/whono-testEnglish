@@ -237,7 +237,7 @@ export const readAdminContentEntryEditorPayload = async (
   if (!getAdminContentCollectionCapability(collection).entryWritable) {
     throw new AdminContentEntryResolutionError(
       'invalid-entry-id',
-      getAdminContentReadOnlyReason(collection) ?? `当前 collection 暂不支持写盘：${collection}`
+      getAdminContentReadOnlyReason(collection) ?? `The current collection does not support writing yet: ${collection}`
     );
   }
 

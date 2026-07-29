@@ -1,5 +1,5 @@
 /* Admin Content Editor Toolbar
-   承载 Markdown toolbar、heading menu、tooltip、布局/视图/compact 控件；不承载 pane 内容或 layout override。
+   Holds the Markdown toolbar, heading menu, tooltip, and layout/view/compact controls; it does not hold pane content or layout overrides.
 */
 @import "../../../callout-tokens.css";
 

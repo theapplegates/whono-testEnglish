@@ -30,8 +30,8 @@ export const flattenEntryIdToSlug = (entryId: string): string =>
   entryId.replaceAll('/', '-');
 
 /**
- * Astro glob loader 会按路径段做 GitHub-style slug 化得到默认公开 entry id。
- * Admin Content 的源文件 entryId 保留真实文件名，因此写入校验需要显式派生公开 id。
+ * The Astro glob loader slugifies path segments GitHub-style to produce the default public entry id.
+ * Admin Content keeps the real filename as the source-file entryId, so write-time validation must derive the public id explicitly.
  */
 export const contentSourceEntryIdToPublicEntryId = (entryId: string): string => {
   const normalized = entryId.trim().replace(/\\/g, '/').replace(/\/+$/g, '');

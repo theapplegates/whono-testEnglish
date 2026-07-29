@@ -6,7 +6,7 @@ export const GET: APIRoute = () => {
 
   if (hasSiteUrl) {
     const basePath = import.meta.env.BASE_URL.replace(/\/+$/, '');
-    // 直接拼接（siteUrl 无尾随斜杠）：保留 SITE_URL 自带的路径段，new URL 的根绝对路径会把它剥掉。
+    // Concatenate directly (siteUrl has no trailing slash): keep the path segment SITE_URL carries, since a new URL root-absolute path would strip it.
     lines.push(`Sitemap: ${siteUrl}${basePath}/sitemap-index.xml`);
   }
 

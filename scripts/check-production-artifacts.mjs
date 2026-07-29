@@ -16,8 +16,8 @@ import {
 
 const normalizeSiteUrl = (value) => value.trim().replace(/\/+$/, '');
 
-/* 与 astro.config.mjs 的 normalizeDeploymentBase 同语义；根路径为空串，子路径形如 '/blog'。
-   dist 目录结构不随 base 嵌套，base 只影响产物内的 URL。 */
+/* Same semantics as normalizeDeploymentBase in astro.config.mjs; the root path is an empty string, and a sub-path looks like '/blog'.
+   The dist directory structure is not nested by base; base only affects URLs inside the build output. */
 const basePathSegment = String(process.env.ASTRO_WHONO_BASE_PATH ?? '').trim().replace(/^\/+|\/+$/g, '');
 const basePrefix = basePathSegment ? `/${basePathSegment}` : '';
 
@@ -190,9 +190,9 @@ export const runProductionArtifactCheck = async (options = {}) => {
   expect(!/--admin-status-/.test(aboutHtml), 'Public about page still contains admin CSS tokens');
 
   const indexHtml = readText('dist/index.html');
-  // 公开首页外链的 _astro 模块脚本 = 全站共享 chunk 基线（如 BaseLayout 公共脚本
-  // 超过 vite assetsInlineLimit 后会从逐页内联翻转为外链共享 chunk）。
-  // admin 只读壳允许共享这些公共 chunk，但不得外链任何 admin 专属脚本。
+  // The public home page's external _astro module script = the site-wide shared chunk baseline (e.g. when the BaseLayout common script
+  // exceeds the vite assetsInlineLimit it flips from per-page inline to an external shared chunk).
+  // The admin read-only shell may share these common chunks but must not externalize any admin-only script.
   const publicExternalModuleScripts = new Set(getExternalModuleScriptSrcs(indexHtml));
 
   const adminHtml = readText('dist/admin/index.html');
@@ -274,11 +274,11 @@ export const runProductionArtifactCheck = async (options = {}) => {
   expect(!/\.admin-/.test(indexHtml), 'Homepage still contains admin CSS rules');
   expect(!/--admin-status-/.test(indexHtml), 'Homepage still contains admin CSS tokens');
 
-  // typography 覆盖（<html style> 内联属性）引用的每个 --font-* 变量必须在同页有定义
-  // （定义由 <Font> 组件的内联 <style> 提供）；缺定义 = 构建期字体下载失败被静默降级
-  // （如 provider 不可达），在这里显式失败。默认态 <html> 无 style 属性，本断言空转；
-  // 页面样式对 --font-readable/copy/mono 角色 token 的引用由外链 global.css 的 :root
-  // 提供定义，不在本断言范围内。
+  // Every --font-* variable referenced by a typography override (an inline <html style> attribute) must be defined on the same page
+  // (the definition comes from the inline <style> of the <Font> component); a missing definition = a build-time font download failed and was silently downgraded
+  // (e.g. provider unreachable), which is failed explicitly here. In the default state <html> has no style attribute and this assertion is a no-op;
+  // page-style references to the --font-readable/copy/mono role tokens are provided by the external global.css :root
+  // and are out of scope for this assertion.
   const htmlStyleMatch = indexHtml.match(/<html[^>]+style="([^"]*)"/);
   const referencedFontVariables = htmlStyleMatch
     ? Array.from(

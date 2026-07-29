@@ -1,11 +1,11 @@
-/* global.css 为公开站点的共享样式入口，只负责 tokens/base 与跨页面公共规则。
-   公开页聚合入口分层如下：
-   - global.css：共享基础层 + layout/list 等跨页面公共规则
-   - home.css / about.css / memo.css：页面私有规则
-   - article.css：正文页专用（prose / figure / callout / lightbox / code-block）
-   - bits-page.css：/bits/ 专用（bits / lightbox）
-   - admin/shell.css + Admin 路由私有样式：/admin 页面按需引入
-   断点变量覆盖仅保留共享层变量与跨页面公共规则。 */
+/* global.css is the shared style entry for the public site; it only handles tokens/base and cross-page common rules.
+   The public-site aggregation entries are layered as follows:
+   - global.css: shared base layer + cross-page common rules such as layout/list
+   - home.css / about.css / memo.css: page-private rules
+   - article.css: body-page-only (prose / figure / callout / lightbox / code-block)
+   - bits-page.css: /bits/ only (bits / lightbox)
+   - admin/shell.css + Admin route-private styles: loaded on demand by /admin pages
+   Breakpoint variable overrides keep only shared-layer variables and cross-page common rules. */
 @import "./components/layout.css";
 @import "./components/lists.css";
 @import "./components/entry-tags.css";
@@ -92,7 +92,7 @@
 }
 
 /* ===============================
-   主题变量
+   Theme variables
 ================================ */
 :root {
   color-scheme: light;
@@ -166,7 +166,7 @@
 }
 
 /* ===============================
-   基础元素
+   Base elements
 ================================ */
 * {
   box-sizing: border-box;
@@ -226,7 +226,7 @@ a {
   text-decoration: none;
 }
 
-/* 仅将无类名链接视为默认文本链接；组件化链接自行定义 hover/focus 表现。 */
+/* Only treat class-less links as default text links; componentized links define their own hover/focus behavior. */
 a:where(:not([class])) {
   border-bottom: 1px solid transparent;
 }
@@ -241,7 +241,7 @@ a:focus-visible {
   border-bottom-color: transparent;
 }
 
-/* 正文区域链接：默认虚线，悬停实线 */
+/* Body-area links: dashed by default, solid on hover */
 .content__inner :where(p, li, blockquote, figcaption) a:where(:not([class])) {
   border-bottom: 1px dashed currentColor;
 }
@@ -307,9 +307,9 @@ hr {
 }
 
 /* ===============================
-   响应式
+   Responsive
 ================================ */
-/* 公开站点窄屏变量；AdminLayout 输出 body.admin-page 时不进入公开移动端壳层。 */
+/* Public-site narrow-screen variables; when AdminLayout outputs body.admin-page it does not enter the public mobile shell. */
 @media (max-width: 900px) {
   body:not(.admin-page) {
     color-scheme: light;

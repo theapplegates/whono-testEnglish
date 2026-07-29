@@ -29,12 +29,12 @@ const NOTO_OUTPUTS = {
 };
 
 const failMissingPyftsubset = (details) => {
-  console.error('[font:subset] Missing required tool / 缺少必需命令');
+  console.error('[font:subset] Missing required tool');
   console.error('- command: pyftsubset');
   console.error('- required by: npm run font:subset / npm run font:build');
   console.error('- install: python -m pip install fonttools brotli zopfli');
   console.error('- verify: pyftsubset --help');
-  console.error('- note: ensure the Python Scripts directory is available on PATH / 请确保 Python Scripts 目录已加入 PATH');
+  console.error('- note: ensure the Python Scripts directory is available on PATH');
   if (details) {
     console.error(`- detail: ${details}`);
   }
@@ -62,11 +62,11 @@ const runSubset = (label, args) => {
 };
 
 const failMissingSource = ({ name, filename, expectedPath }) => {
-  console.error('[font:subset] Missing source font / 缺少源字体文件');
+  console.error('[font:subset] Missing source font');
   console.error(`- name: ${name}`);
   console.error(`- file: ${filename}`);
   console.error(`- expected path: ${expectedPath}`);
-  console.error('- hint: Please download the font file and place it in tools/fonts-src/ / 请自行下载字体文件并放入 tools/fonts-src/');
+  console.error('- hint: Please download the font file and place it in tools/fonts-src/');
   process.exit(1);
 };
 
@@ -174,7 +174,7 @@ runSubset('noto-600-ext', [
   '--unicodes=U+3400-4DBF,U+20000-2A6DF'
 ]);
 
-// 记录本次子集化对应的 charset 内容指纹，供 check:font-charset 校验 woff2 未过期。
+// Record the content fingerprint of the charset used for this subsetting, so check:font-charset can verify the woff2 is not stale.
 const charsetHash = createHash('sha256').update(readFileSync(CHARSET_PATH)).digest('hex');
 writeFileSync(path.join(ROOT, 'tools', 'charset-common.sha256'), `${charsetHash}\n`);
 

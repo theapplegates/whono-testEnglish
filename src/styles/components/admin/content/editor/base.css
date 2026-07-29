@@ -1,5 +1,5 @@
 /* Admin Content Editor Base
-   承载 _edit 编辑页共享基础规则；不承载 Content Console 列表页基础。
+   Holds base rules shared by _edit pages; does not hold the Content Console list-page base.
 */
 
 .admin-content-editor,

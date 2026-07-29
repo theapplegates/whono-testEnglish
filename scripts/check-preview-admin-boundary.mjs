@@ -35,7 +35,7 @@ const ADMIN_CONTENT_ABOUT_SMOKE_BODY_MARKER = 'Admin About HTTP Smoke';
 const previewHost = '127.0.0.1';
 const ADMIN_BOOTSTRAP_XSS_SENTINEL = '__ADMIN_BOOTSTRAP_XSS_SENTINEL__';
 const ADMIN_BOOTSTRAP_BREAKOUT_PAYLOAD = `</script><script>window.${ADMIN_BOOTSTRAP_XSS_SENTINEL}=1</script>`;
-const ADMIN_CONTENT_LOCAL_DEV_NOTICE = '若需查看或编辑内容索引';
+const ADMIN_CONTENT_LOCAL_DEV_NOTICE = 'To view or edit the content index';
 
 const getRequestedPort = (envName, fallbackPort) => {
   const parsed = Number(process.env[envName] ?? String(fallbackPort));
@@ -330,7 +330,7 @@ const assertAdminContentOverviewDevShell = (label, response) => {
   );
   expect(response.body.includes('Content Console'), `${label} is missing the Content Console route heading`);
   assertHasAdminRouteNav(label, response.body);
-  expect(response.body.includes('内容管理'), `${label} is missing the content overview panel`);
+  expect(response.body.includes('Content management'), `${label} is missing the content overview panel`);
   expect(response.body.includes('data-admin-content-root'), `${label} should emit the dev content console root`);
   expect(
     !response.body.includes(ADMIN_CONTENT_LOCAL_DEV_NOTICE),

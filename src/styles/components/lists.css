@@ -1,5 +1,5 @@
 /* Lists
-   负责通用列表与归档布局；禁止放页面专属卡片或页面私有间距调优。
+   Handles generic lists and the archive layout; do not put page-specific cards or page-private spacing tweaks here.
 */
 
 .list {

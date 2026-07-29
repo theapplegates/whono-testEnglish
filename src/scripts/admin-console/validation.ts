@@ -175,7 +175,7 @@ export const createValidation = ({
     about: () => inputPageAboutSubtitle
   };
 
-  /* 字体卡片组本身不可聚焦，聚焦目标退到组内选中（或首个）radio。 */
+  /* The font card group itself is not focusable; focus falls back to the selected (or first) radio inside the group. */
   const getTypographyFocusTarget = (group: HTMLElement): HTMLElement =>
     group.querySelector<HTMLElement>('input[type="radio"]:checked')
     ?? group.querySelector<HTMLElement>('input[type="radio"]')

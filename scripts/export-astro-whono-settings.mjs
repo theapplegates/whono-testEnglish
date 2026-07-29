@@ -55,7 +55,7 @@ const createWarning = ({ code, message, group, path: filePath, detail }) => ({
 });
 
 const fail = (message) => {
-  console.error(`导出失败: ${message}`);
+  console.error(`Export failed: ${message}`);
   process.exit(1);
 };
 
@@ -82,13 +82,13 @@ const parseCliArgs = (argv) => {
 
   const readValue = (index, flag, inlineValue) => {
     if (inlineValue !== undefined) {
-      if (!inlineValue) fail(`${flag} 参数不能为空`);
+      if (!inlineValue) fail(`${flag} argument must not be empty`);
       return { value: inlineValue, nextIndex: index };
     }
 
     const next = argv[index + 1];
     if (!next || next.startsWith('--')) {
-      fail(`${flag} 需要提供参数值`);
+      fail(`${flag} requires a value`);
     }
     return { value: next, nextIndex: index + 1 };
   };
@@ -98,19 +98,19 @@ const parseCliArgs = (argv) => {
     const [flag, inlineValue] = arg.includes('=') ? arg.split(/=(.*)/s, 2) : [arg, undefined];
 
     if (flag === '--help' || flag === '-h') {
-      if (inlineValue !== undefined) fail(`${flag} 不接受参数值`);
+      if (inlineValue !== undefined) fail(`${flag} does not accept a value`);
       options.help = true;
       continue;
     }
 
     if (flag === '--include-legacy') {
-      if (inlineValue !== undefined) fail(`${flag} 不接受参数值`);
+      if (inlineValue !== undefined) fail(`${flag} does not accept a value`);
       options.includeLegacy = true;
       continue;
     }
 
     if (flag === '--force') {
-      if (inlineValue !== undefined) fail(`${flag} 不接受参数值`);
+      if (inlineValue !== undefined) fail(`${flag} does not accept a value`);
       options.force = true;
       continue;
     }
@@ -129,7 +129,7 @@ const parseCliArgs = (argv) => {
       continue;
     }
 
-    fail(`未知参数: ${arg}`);
+    fail(`Unknown argument: ${arg}`);
   }
 
   return options;
@@ -223,11 +223,11 @@ const readLegacyConfig = async (warnings) => {
 
 const assertOutputTargetAllowed = (outputPath, settingsDir) => {
   if (isSameOrInsidePath(outputPath, settingsDir)) {
-    fail(`输出文件不能写入 settings 目录: ${formatDisplayPath(outputPath)}`);
+    fail(`The output file cannot be written inside the settings directory: ${formatDisplayPath(outputPath)}`);
   }
 
   if (path.resolve(outputPath) === path.resolve(DEFAULT_LEGACY_CONFIG_PATH)) {
-    fail(`输出文件不能覆盖 legacy 配置文件: ${formatDisplayPath(outputPath)}`);
+    fail(`The output file cannot overwrite a legacy config file: ${formatDisplayPath(outputPath)}`);
   }
 };
 
@@ -236,20 +236,20 @@ const assertOutputWritable = async (outputPath, force) => {
   try {
     const dirStat = await stat(outputDir);
     if (!dirStat.isDirectory()) {
-      fail(`输出目录不是目录: ${formatDisplayPath(outputDir)}`);
+      fail(`The output directory is not a directory: ${formatDisplayPath(outputDir)}`);
     }
     await access(outputDir, fsConstants.W_OK);
   } catch (error) {
-    fail(`输出目录不可写: ${formatDisplayPath(outputDir)} (${error?.message ?? 'unknown error'})`);
+    fail(`The output directory is not writable: ${formatDisplayPath(outputDir)} (${error?.message ?? 'unknown error'})`);
   }
 
   if (!force) {
     try {
       await access(outputPath, fsConstants.F_OK);
-      fail(`输出文件已存在，请使用 --force 覆盖: ${formatDisplayPath(outputPath)}`);
+      fail(`The output file already exists; use --force to overwrite: ${formatDisplayPath(outputPath)}`);
     } catch (error) {
       if (error?.code !== 'ENOENT') {
-        fail(`无法检查输出文件状态: ${formatDisplayPath(outputPath)} (${error?.message ?? 'unknown error'})`);
+        fail(`Could not check the output file status: ${formatDisplayPath(outputPath)} (${error?.message ?? 'unknown error'})`);
       }
     }
   }
@@ -294,7 +294,7 @@ const createBundle = async ({ settingsDir, includeLegacy, createdAt }) => {
   const parsedSettingsCount = Object.keys(settings).length;
 
   if (readableSettingsCount === 0 && !legacy) {
-    fail('当前目录下找不到任何可读取的 settings JSON；如需仅备份 site.config.mjs，请传入 --include-legacy');
+    fail('No readable settings JSON found in the current directory; pass --include-legacy to back up only site.config.mjs');
   }
 
   const completeSettings = SETTINGS_GROUPS.every((group) => files[group].exists && files[group].parseOk && files[group].rootOk);
@@ -372,12 +372,12 @@ const main = async () => {
     });
   } catch (error) {
     const message = error?.code === 'EEXIST'
-      ? '输出文件已存在，请使用 --force 覆盖'
-      : `写入输出文件失败: ${error?.message ?? 'unknown error'}`;
+      ? 'The output file already exists; use --force to overwrite'
+      : `Failed to write the output file: ${error?.message ?? 'unknown error'}`;
     fail(`${message}: ${formatDisplayPath(outputPath)}`);
   }
 
-  console.log(`导出完成: ${formatDisplayPath(outputPath)}`);
+  console.log(`Export done: ${formatDisplayPath(outputPath)}`);
   console.log(`settings parsed: ${summary.parsedSettingsCount}/${SETTINGS_GROUPS.length}`);
   console.log(`settings readable: ${summary.readableSettingsCount}/${SETTINGS_GROUPS.length}`);
   console.log(`warnings: ${summary.warningCount}`);

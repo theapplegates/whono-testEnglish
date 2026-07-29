@@ -1,5 +1,5 @@
 /* Admin Content Editor Side Panels
-   承载右侧辅助区的 0/1/2 面板布局；具体目录与语法内容由各自样式文件负责。
+   Holds the 0/1/2-panel layout of the right-side auxiliary area; specific outline and syntax content is handled by their own style files.
 */
 
 .admin-editor-side-panels {

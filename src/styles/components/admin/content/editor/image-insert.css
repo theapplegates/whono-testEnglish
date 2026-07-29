@@ -1,5 +1,5 @@
 /* Admin Content Editor Image Insert
-   承载正文图片插入弹窗、dropzone、上传预览和错误提示；不承载 legacy bits 图片行。
+   Holds the body image-insert dialog, dropzone, upload preview, and error messages; does not hold the legacy bits image row.
 */
 
 .admin-editor-image-insert {

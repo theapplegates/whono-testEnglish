@@ -1,5 +1,5 @@
 /* Admin Content Console
-   负责 /admin/content/ 工作台首页、筛选、列表、分页和行操作反馈。
+   Handles the /admin/content/ workbench home page, filtering, lists, pagination, and row action feedback.
 */
 
 .admin-content-toolbar,
@@ -238,7 +238,7 @@
   color: var(--text);
 }
 
-/* 焦点环仅在键盘聚焦时显示，鼠标点击只做边框提亮。 */
+/* Focus ring shows only on keyboard focus; mouse clicks only brighten the border. */
 .admin-content-toolbar-search:has(.admin-content-toolbar-search__input:focus-visible) {
   box-shadow: var(--admin-focus-shadow);
 }
@@ -326,7 +326,7 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  /* 行内按钮已是纯文字默认态，自身 padding 即提供视觉间隔，gap 收紧。 */
+  /* Inline buttons are plain text by default and their own padding provides visual spacing, so the gap is tightened. */
   gap: 2px;
   inline-size: var(--admin-content-action-inline-size);
   min-width: var(--admin-content-action-inline-size);
@@ -342,7 +342,7 @@
   line-height: 1.15;
 }
 
-/* 边框保留 1px 透明占位，避免 hover 时布局抖动。 */
+/* Keep a 1px transparent border placeholder to avoid layout shift on hover. */
 .admin-content-item__actions .admin-btn:not(:hover):not(:focus-visible) {
   border-color: transparent;
   background: transparent;
@@ -357,7 +357,7 @@
   cursor: not-allowed;
 }
 
-/* 「更多」菜单展开期间保持按钮高亮，与打开的面板形成视觉关联。 */
+/* Keep the button highlighted while the "more" menu is open, visually linking it to the open panel. */
 .admin-content-item__actions .admin-content-item__more[open] summary.admin-btn {
   border-color: var(--admin-button-ghost-hover-border);
   background: var(--admin-button-ghost-hover-bg);
@@ -606,7 +606,7 @@
   flex: 0 0 auto;
 }
 
-/* 总览模式下模块标题即「查看全部」入口：常态与纯文字标题一致，hover 时提亮。 */
+/* In overview mode the module title is the "view all" entry: identical to a plain-text title at rest, brightened on hover. */
 .admin-content-module__title-link {
   display: inline-flex;
   align-items: baseline;
@@ -616,7 +616,7 @@
   text-decoration: none;
 }
 
-/* 计数 badge：仅多条目的 collection（essay / bits）展示。 */
+/* Count badge: shown only for collections with multiple entries (essay / bits). */
 .admin-content-module__title-count {
   align-self: center;
   padding: 1px 6px;

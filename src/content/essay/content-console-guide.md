@@ -1,142 +1,142 @@
 ---
-title: Content Console 使用指南
-description: 说明 astro-whono 本地 Content Console 在开发环境下的内容类型、列表查找、编辑预览与下载删除等能力。
-badge: 指南
+title: Content Console Usage Guide
+description: Explains the content types, list search, edit preview, and download/delete capabilities of the astro-whono local Content Console in the development environment.
+badge: Guide
 date: 2026-06-13
-tags: [ "Content Console", "指南" ]
+tags: [ "Content Console", "Guide" ]
 draft: false
 ---
 
-astro-whono 提供一个本地 Content Console，用于在开发环境中管理站点的写作内容。
+astro-whono provides a local Content Console for managing the site's written content in the development environment.
 
-Content Console 的入口是 `/admin/content/`。它覆盖随笔、絮语、小记、关于四类内容的浏览、查找、编辑与预览，并支持新建草稿、下载源文件与删除，便于在不直接手写 frontmatter 的情况下维护内容。
+The entry point for the Content Console is `/admin/content/`. It covers browsing, searching, editing, and previewing four content types — essays, bits, memo, and about — and supports creating drafts, downloading source files, and deleting, so you can maintain content without writing frontmatter by hand.
 
-:::note[开发环境]
-`/admin/content/` 及其编辑页仅在开发环境可操作。生产环境访问时只显示本地开发提示，不加载内容数据与编辑器；`/api/admin/content/*` 仅服务本地后台，不作为公开 API。
+:::note[Development environment]
+`/admin/content/` and its edit page are only actionable in the development environment. In production they only show a local-development notice and load no content data or editor; `/api/admin/content/*` serves only the local admin and is not a public API.
 :::
 
-## 本地启动与入口
+## Local startup and entry
 
-本地开发时，可通过以下命令启动项目：
+For local development, start the project with:
 
 ```bash
 npm install
 npm run dev
 ```
 
-默认情况下，开发服务器会运行在 `http://localhost:4321/`。启动后可直接访问：
+By default the dev server runs at `http://localhost:4321/`. Once started, visit:
 
 ```text
 http://localhost:4321/admin/content/
 ```
 
-如果本地修改了开发端口，请将 `4321` 替换为实际端口。
+If you changed the dev port locally, replace `4321` with your actual port.
 
-Content Console 直接读取 `src/content/**` 下的源文件，不依赖数据库或外部服务。新建、保存与删除都会落到仓库内的内容文件，相关改动可通过 Git 跟踪和回退。
+The Content Console reads source files under `src/content/**` directly, with no database or external service. Creating, saving, and deleting all land in the in-repo content files, and changes can be tracked and reverted through Git.
 
-## 内容类型与能力
+## Content types and capabilities
 
-Content Console 统一管理四类内容，但它们的能力并不相同：
+The Content Console manages four content types in a unified way, but their capabilities differ:
 
-| 内容 | 目录 | 新建 | 编辑 | 删除 | 列表筛选 |
+| Content | Directory | Create | Edit | Delete | List filter |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| 随笔 | `src/content/essay/` | 支持 | 支持 | 支持 | 支持 |
-| 絮语 | `src/content/bits/` | 支持 | 支持 | 支持 | 支持 |
-| 小记 | `src/content/memo/index.md` | — | 支持 | — | — |
-| 关于 | `src/content/about/index.md` | — | 支持 | — | — |
+| Essays | `src/content/essay/` | Yes | Yes | Yes | Yes |
+| Bits | `src/content/bits/` | Yes | Yes | Yes | Yes |
+| Memo | `src/content/memo/index.md` | — | Yes | — | — |
+| About | `src/content/about/index.md` | — | Yes | — | — |
 
-随笔与絮语是多条内容，可在控制台新建草稿、逐条编辑与删除，列表也提供筛选与分页。小记与关于是固定单页内容，只能编辑现有正文，不支持新建或删除。
+Essays and bits are multi-entry content: you can create drafts, edit entry by entry, and delete, and the list also offers filtering and pagination. Memo and about are fixed single-page content that can only have their body edited; they do not support create or delete.
 
-## 浏览、筛选与搜索
+## Browse, filter, and search
 
-打开 `/admin/content/` 时，默认按随笔、絮语、小记、关于分组展示内容概览。顶部工具栏提供以下能力：
+When you open `/admin/content/`, it shows a content overview grouped by essays, bits, memo, and about by default. The top toolbar provides:
 
-- 搜索：按标题、标签或 slug 跨内容查找
-- 范围：在「全部内容」与单类内容之间切换
-- 状态：全部状态 / 已发布 / 仅草稿
-- 排序：最近更新 / 标题 A-Z
-- 年份：按内容年份过滤
+- Search: find across content by title, tag, or slug
+- Scope: switch between "All content" and a single content type
+- Status: all statuses / published / drafts only
+- Sort: recently updated / title A-Z
+- Year: filter by content year
 
-状态、排序、年份筛选与分页仅对随笔、絮语生效；小记与关于是固定单页，不暴露这些筛选项。列表中，草稿标记为 `[draft]`，关闭归档的随笔标记为 `[archive off]`。
+Status, sort, year filter, and pagination apply only to essays and bits; memo and about are fixed single pages and do not expose these filters. In the list, drafts are marked `[draft]`, and essays with archiving disabled are marked `[archive off]`.
 
-每一项都提供「编辑」按钮，以及「更多」菜单中的修改信息、前台查看、下载与删除操作。
+Each item provides an "Edit" button, plus Edit info, View on front end, Download, and Delete actions in the "More" menu.
 
-## 新建与编辑
+## Create and edit
 
-### 随笔
+### Essays
 
-在随笔分组点击「新建文章」，填写标题等基础信息后会生成一篇草稿，并跳转到编辑页。
+In the essays group, click "New post", fill in the title and other basics, and a draft is generated and you jump to the edit page.
 
-随笔编辑页提供：
+The essay edit page provides:
 
-- 基于 CodeMirror 的正文编辑区，内置多种语法高亮主题与行号选项
-- 编辑 / 预览布局切换，预览由服务端渲染
-- frontmatter 信息面板：发布日期、更新日期、标签、草稿与归档等字段
-- 目录与 Markdown 语法两个辅助侧栏
-- 工具栏：常用 Markdown、数学公式、emoji、图片与画廊
-- 正文图片上传：上传后保存到当前内容的附件目录，并插入 Markdown
+- A CodeMirror-based body editor with multiple syntax-highlight themes and line-number options
+- Edit / preview layout switching, with the preview rendered server-side
+- A frontmatter info panel: publish date, update date, tags, draft, archive, and other fields
+- Two helper sidebars: outline and Markdown syntax
+- Toolbar: common Markdown, math formulas, emoji, images, and gallery
+- Body image upload: uploaded images are saved to the current entry's asset directory and inserted as Markdown
 
-### 絮语
+### Bits
 
-在絮语分组点击「新建动态」，选择发布时间后会生成一条草稿并跳转到编辑页。
+In the bits group, click "New post", pick a publish time, and a draft is generated and you jump to the edit page.
 
-絮语编辑页是独立工作台，可编辑正文、基础信息与配图（`images`）行，支持图片上传，并提供实时卡片预览，所见与 `/bits/` 列表中的卡片一致。
+The bits edit page is a standalone workbench where you can edit the body, basic info, and image (`images`) rows, with image upload support and a live card preview that matches the card on `/bits/`.
 
-### 小记与关于
+### Memo and About
 
-小记与关于是固定单页内容，编辑页只处理正文：
+Memo and about are fixed single-page content; the edit page only handles the body:
 
-- 小记：编辑 `src/content/memo/index.md` 正文，支持插入正文图片、页面预览与正文目录
-- 关于：编辑 `src/content/about/index.md` 正文，预览中的友链与 FAQ 会按公开页样式渲染；联系链接位置用 `::contact-links` 占位控制
+- Memo: edit the `src/content/memo/index.md` body, with body image insertion, page preview, and a body outline
+- About: edit the `src/content/about/index.md` body; friend links and FAQ in the preview render with the public-page styles; the contact-links position is controlled by a `::contact-links` placeholder
 
-小记与关于的页面主副标题不在这里维护，统一在 Theme Console 调整。
+The primary and secondary page titles for memo and about are not maintained here; adjust them uniformly in the Theme Console.
 
-## 批量操作
+## Bulk actions
 
-勾选列表中的内容后，可通过「批量操作」执行：
+After selecting items in the list, you can run the following via "Bulk actions":
 
-- 发布 / 改草稿：批量切换 `draft` 状态
-- 下载：把所选内容的源文件打包成 zip 下载
-- 删除：批量删除所选内容，源文件移入回收站（删除前会确认）
+- Publish / mark as draft: batch-toggle the `draft` state
+- Download: package the selected entries' source files into a zip download
+- Delete: batch-delete the selected entries; source files are moved to the trash (with confirmation before deletion)
 
-批量操作的范围是当前列表中已勾选的内容；可以先用筛选或搜索缩小范围，再批量处理。
+Bulk actions apply to the items currently checked in the list; you can narrow the scope with filters or search first, then process in bulk.
 
-## 下载与删除
+## Download and delete
 
-- 下载：在该条的「更多」菜单点「下载源文件」，得到对应的 Markdown 文件
-- 删除：在该条的「更多」菜单中删除，源文件会被移入回收站，而不是直接抹除；删除前会确认
+- Download: in an item's "More" menu, click "Download source file" to get the corresponding Markdown file
+- Delete: delete from an item's "More" menu; the source file is moved to the trash rather than erased outright, with confirmation before deletion
 
-下载与删除作用于源文件本身。删除仅随笔、絮语支持，小记与关于不提供删除。
+Download and delete act on the source file itself. Delete is supported only for essays and bits; memo and about do not offer deletion.
 
-## 内容字段与写作约定
+## Content fields and writing conventions
 
-Content Console 负责录入和维护内容，具体的 frontmatter 字段、图片路径规则与正文写作约定（Callout、Figure、Gallery、公式等）仍以仓库 README 「内容与写作」为准，这里不再重复。
+The Content Console handles entering and maintaining content. The specific frontmatter fields, image path rules, and body writing conventions (Callout, Figure, Gallery, formulas, etc.) remain governed by the "Content and writing" section of the repo README, so they are not repeated here.
 
-**新建的内容默认是草稿**。随笔、絮语的草稿在本地开发可见，生产构建、RSS 与公开列表会自动过滤；小记是单页内容，不应标记为草稿。
-
----
-
-## 写在最后 
-
-:::info[为什么会做一个本地后台]
-Content Console 是整个后台里最复杂、投入时间最多的部分。既然都在本地写作、都要启动开发服务器，直接编辑 Markdown 也能完成，可能会有朋友疑惑为什么还要做这样一套后台？
-
-- astro-whono 面向的用户不一定熟悉前端。直接编辑源文件需要记住 frontmatter 字段、目录结构和写作约定，后台把这些收进表单与按钮，降低上手门槛。
-- 写作时更关心最终的排版效果。编辑页内置服务端预览，正文、卡片与关于页都能在保存前看到接近前台的呈现，不必来回切到浏览器确认。
-- 常用的内容格式（Callout、图片、画廊、公式、emoji 等）可以从工具栏直接插入，省去手写标记和查阅文档。
-- 小记、关于这类固定单页，过去只能改源文件；现在可以在后台原位编辑正文并预览，更方便。
-
-Content Console 的目标不是替代命令行或编辑器，而是让没有代码基础的人也能顺手维护自己的内容。当然最好的方案还是做成真正的 CMS ，但那是另一个量级的工作了，也不在近期计划内。
-:::
-
-### 🔜当前进度与后续计划
-
-Content Console 最初设想的功能目前基本实现，Admin 后台后续也会以维护和细节优化为主，暂时没有继续叠加新功能的计划。如果你在使用中有合适的想法或建议，也欢迎提出。
-
-:::tip[后续计划]
-评论功能在计划之内，目前初步考虑接入 Waline。随笔（essay）的接入相对直接；絮语（bits）是短动态类型的页面，还需要重新设计评论系统在这种页面下的样式与适配方式。因此评论模块虽然已经列入计划，正式上线可能还需要一些时间。
-:::
+**New content is a draft by default.** Essay and bits drafts are visible in local development and automatically filtered out of production builds, RSS, and public lists; memo is single-page content and should not be marked as a draft.
 
 ---
 
-以上内容覆盖了 Content Console 当前的内容管理入口与常用操作。使用中如果遇到内容异常、保存问题，或对功能有想法和建议，都欢迎提交 Issue。
+## A few final words
+
+:::info[Why build a local admin]
+The Content Console is the most complex and time-consuming part of the whole admin. Since you're writing locally anyway and have to start a dev server, you could also just edit the Markdown directly, so some may wonder why we built this admin at all.
+
+- astro-whono's users aren't necessarily familiar with front-end work. Editing source files directly means remembering frontmatter fields, directory structure, and writing conventions; the admin folds these into forms and buttons, lowering the barrier to entry.
+- When writing, you care more about the final layout. The edit page has a built-in server-side preview, so the body, cards, and about page can all look close to the front end before you save, without bouncing back to the browser to check.
+- Common content formats (Callout, images, gallery, formulas, emoji, etc.) can be inserted straight from the toolbar, sparing you hand-writing markup and digging through docs.
+- Fixed single pages like memo and about used to be editable only as source files; now you can edit the body in place in the admin and preview it, which is more convenient.
+
+The Content Console isn't meant to replace the command line or your editor; it's meant to let people without a coding background comfortably maintain their own content. The best solution would of course be a real CMS, but that's an order of magnitude more work and not in the near-term plan.
+:::
+
+### 🔜 Current progress and next steps
+
+The originally envisioned features of the Content Console are mostly done. The Admin will continue with maintenance and detail polish, and there is no plan to keep stacking new features for now. If you have ideas or suggestions while using it, you're welcome to share them.
+
+:::tip[Next steps]
+Comments are on the roadmap, with Waline as the current leading idea. Wiring it into essays is relatively straightforward; bits are short-post-style pages and still need a redesigned comment UI and adaptation for that page type. So although the comment module is on the plan, it may be a while before it officially ships.
+:::
+
+---
+
+The above covers the content-management entry points and common actions in the Content Console today. If you run into content issues, save problems, or have thoughts and suggestions about features, feel free to open an Issue.

@@ -1,5 +1,5 @@
 /* Admin Content Editor Gallery Insert
-   承载正文图片画廊弹窗；复用正文图片上传接口，不承载单图编辑状态。
+   Holds the body image-gallery dialog; reuses the body image upload API and does not hold single-image editing state.
 */
 
 .admin-editor-gallery-insert {

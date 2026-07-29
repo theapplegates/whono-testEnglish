@@ -1,5 +1,5 @@
 /* Admin Content Editor About Workspace
-   about 是固定单页 body-only 工作台，正文与预览骨架复用 shared editor shell。
+   about is a fixed single-page body-only workbench; the body and preview skeleton reuse the shared editor shell.
 */
 
 .admin-about-editor.admin-editor-shell {

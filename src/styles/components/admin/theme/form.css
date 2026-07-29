@@ -1,5 +1,5 @@
 /* Admin Form
-   负责 Theme Console 表单控件、toggle、分组与底部操作区。
+   Handles the Theme Console form controls, toggles, grouping, and the bottom action area.
 */
 
 .admin-form {
@@ -545,7 +545,7 @@
   box-shadow: var(--admin-focus-shadow);
 }
 
-/* 排版字体：radio 卡片组（固定 4 列保证各 role 组卡片纵向对齐，超出自动换行） */
+/* Typography fonts: radio card group (a fixed 4-column grid keeps each role group's cards aligned vertically; extras wrap automatically) */
 .admin-font-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -600,7 +600,7 @@
   box-shadow: var(--admin-focus-shadow);
 }
 
-/* 卡片内容默认浅灰、选中恢复正文色：详情行已移除，选中态由卡片自身（边框/底色/文字色）表达。 */
+/* Card content is light-gray by default and restored to body color when selected: the detail row was removed, and the selected state is expressed by the card itself (border/background/text color). */
 .admin-font-card__preview {
   color: var(--muted);
   font-size: 19px;
@@ -618,7 +618,7 @@
   text-overflow: ellipsis;
 }
 
-/* 来源说明：纯文字弱化展示，与上方字体名左对齐。 */
+/* Source note: muted plain text, left-aligned with the font name above. */
 .admin-font-card__badge {
   max-width: 100%;
   color: var(--faint);

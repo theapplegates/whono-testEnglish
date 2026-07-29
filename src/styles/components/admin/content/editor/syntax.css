@@ -1,5 +1,5 @@
 /* Admin Content Editor Syntax Panel
-   承载 Markdown 语法实例与快捷键速查；插入行为只通过编辑器命令通道触发。
+   Holds Markdown syntax examples and a keyboard-shortcut reference; insert actions are triggered only through the editor command channel.
 */
 
 .admin-editor-syntax-panel {

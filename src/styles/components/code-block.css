@@ -1,21 +1,21 @@
 /* ===============================
    Code Styling
-   - Astro 常输出 <pre class="astro-code">（带行内背景/颜色）
-   - 部分环境会输出 <pre class="shiki">
-   - 覆盖背景，并在深色模式下映射 token 颜色
+   - Astro often emits <pre class="astro-code"> (with inline background/colors)
+   - Some environments emit <pre class="shiki">
+   - Override the background and map token colors in dark mode
 ================================ */
 
-/* 覆盖正文代码块的行内背景 */
+/* Override the inline background of body code blocks */
 .prose pre:is(.astro-code, .shiki) {
   background-color: var(--code-content-bg) !important;
 }
 
-/* 可选：移除 token 背景，避免条纹感 */
+/* Optional: remove the token background to avoid a striped look */
 .prose pre:is(.astro-code, .shiki) span {
   background-color: transparent !important;
 }
 
-/* token 颜色映射（仅在存在 Shiki 变量时启用） */
+/* Token color mapping (enabled only when Shiki variables are present) */
 .prose pre:is(.astro-code, .shiki) span[style*="--shiki-light"] {
   color: var(--shiki-light) !important;
 }
@@ -24,12 +24,12 @@
   color: var(--shiki-dark) !important;
 }
 
-/* 暗色模式兜底：纯文本代码块可能无 token span，需强制基础文字色 */
+/* Dark-mode fallback: plain-text code blocks may have no token span, so force the base text color */
 :root[data-theme="dark"] .prose pre:is(.astro-code, .shiki) {
   color: var(--shiki-dark, var(--text)) !important;
 }
 
-/* 代码块容器 */
+/* Code block container */
 .prose .code-block {
   position: relative;
   margin: 1.5em 0;
@@ -46,7 +46,7 @@
   background: var(--code-content-bg);
 }
 
-/* 行号（仅正文 .prose，默认开启，可通过 body[data-code-line-numbers="off"] 关闭） */
+/* Line numbers (body .prose only; on by default, can be disabled via body[data-code-line-numbers="off"]) */
 .prose pre:is(.astro-code, .shiki) {
   counter-reset: line;
   --ln-width: 2.5ch;
@@ -100,7 +100,7 @@ body[data-code-line-numbers="off"] .prose pre:is(.astro-code, .shiki) .line {
   }
 }
 
-/* 代码块工具栏（仅正文 .prose，构建时注入） */
+/* Code block toolbar (body .prose only; injected at build time) */
 .prose .code-block .code-toolbar {
   display: flex;
   align-items: center;
@@ -187,7 +187,7 @@ body[data-code-line-numbers="off"] .prose pre:is(.astro-code, .shiki) .line {
   display: block;
 }
 
-/* 语言图标基础样式 */
+/* Language icon base styles */
 .prose .code-block .code-lang-icon {
   width: 16px;
   height: 16px;
@@ -198,14 +198,14 @@ body[data-code-line-numbers="off"] .prose pre:is(.astro-code, .shiki) .line {
   transition: color 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
 }
 
-/* 彩色图标：默认灰度化，hover 恢复 */
+/* Colored icons: grayscale by default, restored on hover */
 .prose .code-block .code-lang-icon.is-colored {
   color: inherit;
   filter: grayscale(100%);
   opacity: 0.65;
 }
 
-/* hover 触发范围：仅 toolbar（避免滑过长代码块时频繁变色） */
+/* hover trigger area: toolbar only (to avoid frequent color changes while scrolling past long code blocks) */
 .prose .code-block .code-toolbar:hover .code-lang-icon:not(.is-colored) {
   color: var(--code-text);
   opacity: 1;

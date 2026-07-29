@@ -1,7 +1,7 @@
 @import "../../../bit-card.css";
 
 /* Admin Content Editor Bits Preview
-   承载后台 bit card 预览；卡片展示复用公开 BitCard 样式。
+   Holds the admin bit card preview; card rendering reuses the public BitCard styles.
 */
 
 .admin-bits-preview {

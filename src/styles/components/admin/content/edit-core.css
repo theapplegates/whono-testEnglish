@@ -1,5 +1,5 @@
 /* Admin Content Edit Core
-   _edit 编辑页共享壳层、工作台与 Markdown 面板样式；collection/feature 私有样式由 registry 追加。
+   Shared shell, workbench, and Markdown panel styles for _edit pages; collection/feature private styles are appended by the registry.
 */
 
 @import "./base.css";

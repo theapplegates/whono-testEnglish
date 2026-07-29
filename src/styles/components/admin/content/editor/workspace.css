@@ -1,5 +1,5 @@
 /* Admin Content Editor Workspace
-   承载 workspace 默认 grid、pane surface、预览状态栏和滚动操作；不承载 toolbar tooltip 或 preview 正文排版。
+   Holds the default workspace grid, pane surface, preview status bar, and scroll actions; it does not hold toolbar tooltips or preview body typography.
 */
 
 .admin-editor-shell__workspace {

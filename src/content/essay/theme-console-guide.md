@@ -1,68 +1,68 @@
 ---
-title: Theme Console 配置指南
-description: 说明 astro-whono 本地 Theme Console 在开发环境下的适用范围、页面分组、配置落点与保存机制。
-badge: 指南
+title: Theme Console Configuration Guide
+description: Explains the scope, page groupings, configuration targets, and save mechanism of the astro-whono local Theme Console in the development environment.
+badge: Guide
 date: 2026-04-26
 updatedAt: 2026-07-11
-tags: [ "Theme Console", "指南"]
+tags: [ "Theme Console", "Guide"]
 draft: false
 ---
 
-astro-whono 提供一个本地 Theme Console，用于在开发环境中集中管理主题级配置。
+astro-whono provides a local Theme Console for centrally managing theme-level configuration in the development environment.
 
-Theme Console 的入口是 `/admin/theme/`。它主要覆盖站点信息、侧栏、首页、内页文案，以及部分阅读与代码显示选项，便于在 fork 或 clone 后快速调整站点主题设置。
+The entry point for the Theme Console is `/admin/theme/`. It mainly covers site information, the sidebar, the home page, inner-page copy, and some reading and code-display options, so you can quickly adjust the site's theme settings after forking or cloning.
 
-:::note[开发环境]
-`/admin/theme/` 仅在开发环境可操作。生产环境访问时，只显示本地开发提示，不提供写入能力。
+:::note[Development environment]
+`/admin/theme/` is only actionable in the development environment. In production it only shows a local-development notice and provides no write capability.
 :::
 
-## 本地启动与入口
+## Local startup and entry
 
-本地开发时，可通过以下命令启动项目：
+For local development, start the project with:
 
 ```bash
 npm install
 npm run dev
 ```
 
-默认情况下，开发服务器会运行在 `http://localhost:4321/`。启动后可直接访问：
+By default the dev server runs at `http://localhost:4321/`. Once started, visit:
 
 ```text
 http://localhost:4321/admin/theme/
 ```
 
-如果本地修改了开发端口，请将 `4321` 替换为实际端口。
+If you changed the dev port locally, replace `4321` with your actual port.
 
-`/admin/` 是后台的 Site Overview 入口，用于查看站点快照。Theme Console 位于 `/admin/theme/`，使用时注意区分这两个入口。
+`/admin/` is the Admin Site Overview entry for viewing a snapshot of the site. The Theme Console lives at `/admin/theme/`, so keep these two entry points distinct.
 
-## 开发与生产环境
+## Development vs. production
 
-Theme Console 是面向本地维护者的配置工具，不同环境下的表现如下：
+The Theme Console is a configuration tool for local maintainers. Its behavior differs by environment:
 
-- 开发环境：`/admin/theme/` 可读取和保存主题配置
-- 生产环境：`/admin/theme/` 只保留本地开发提示，不显示可写表单
-- `/api/admin/settings/`：仅开发环境可用，不作为公开 API 使用
+- Development: `/admin/theme/` can read and save theme configuration
+- Production: `/admin/theme/` only shows a local-development notice and no writable form
+- `/api/admin/settings/`: development-only, not exposed as a public API
 
-## 适用范围
+## Scope
 
-Theme Console 当前适合处理以下几类配置：
+The Theme Console currently handles these categories of configuration:
 
-- 站点标题、默认语言、默认 SEO 描述
-- 页脚年份与版权文案
-- `/admin/` Overview 对外展示开关与关闭态文案
-- 社交链接及其排序
-- 侧栏站点名、引用文案、导航顺序与显隐
-- 侧栏动作图标（阅读模式 / RSS / 主题切换 / 站点概览入口）
-- 首页 Hero、首页导语及首页内部入口
-- `/essay/`、`/archive/`、`/bits/`、`/memo/`、`/about/` 的主副标题
-- 文章元信息显示选项
-- 代码块行号
-- 正文 / 文案 / 等宽 / 品牌四个角色的排版字体
+- Site title, default locale, default SEO description
+- Footer year and copyright text
+- The public visibility toggle for the `/admin/` Overview and its hidden-state message
+- Social links and their ordering
+- Sidebar site name, quote text, navigation order and visibility
+- Sidebar action icons (reading mode / RSS / theme toggle / site overview entry)
+- Home page hero, home intro, and home internal entry links
+- Primary and secondary titles for `/essay/`, `/archive/`, `/bits/`, `/memo/`, `/about/`
+- Article meta display options
+- Code block line numbers
+- The four typography font roles: body / copy / mono / brand
 
 
-## 配置文件
+## Configuration files
 
-保存后的设置会按分组自动写入 `src/data/settings/`：
+Saved settings are written to `src/data/settings/` by group:
 
 ```text
 src/data/settings/
@@ -73,122 +73,122 @@ src/data/settings/
   ui.json
 ```
 
-> 若 `src/data/settings/*.json` 尚不存在，首次在 `/admin/theme/` 保存时会自动生成。
+> If `src/data/settings/*.json` does not yet exist, it is generated automatically the first time you save in `/admin/theme/`.
 
-Theme Console 管理的是仓库内的主题配置，相关改动仍可通过 Git 进行跟踪和回退。
+The Theme Console manages theme configuration inside the repository, so changes can still be tracked and reverted through Git.
 
-主题配置的读取顺序固定为：`src/data/settings/*.json` 优先，其次读取 legacy 配置，最后使用项目默认值。这里的 legacy 配置主要来自 `site.config.mjs` 和组件内默认常量。<br>
-也就是说，刚 clone 项目时可以先使用默认配置；只要在 Theme Console 中保存过一次，就会生成可跟踪的 settings JSON。
+Theme configuration is read in a fixed order: `src/data/settings/*.json` first, then legacy configuration, then project defaults. The legacy configuration mainly comes from `site.config.mjs` and in-component default constants.<br>
+That is, when you first clone the project you can start with the defaults; once you save in the Theme Console, trackable settings JSON is generated.
 
-## 页面分组
+## Page groups
 
-`/admin/theme/` 当前按编辑场景拆分为五组。
+`/admin/theme/` is currently split into five groups by editing scenario.
 
 ### Site
 
-`Site` 负责站点层面的基础信息：
+`Site` covers site-level basics:
 
-- 站点标题
-- 默认语言
-- 默认 SEO 描述
-- 页脚年份与版权文案
-- `/admin/` Overview 是否对外展示，以及关闭时显示的文案
-- 社交链接
+- Site title
+- Default locale
+- Default SEO description
+- Footer year and copyright text
+- Whether `/admin/` Overview is publicly shown, and the message shown when it is hidden
+- Social links
 
-> ![Site 分组截图](./theme-console/theme-console-site.webp)
+> ![Site group screenshot](./theme-console/theme-console-site.webp)
 
 ### Sidebar
 
-`Sidebar` 负责壳层与导航相关配置：
+`Sidebar` covers shell and navigation configuration:
 
-- 侧栏站点名
-- 侧栏引用文案
-- 侧栏分隔线样式
-- 侧栏动作图标显隐（阅读模式 / RSS / 主题切换 / 站点概览）
-- 导航名称、排序、后缀字符与显隐状态
+- Sidebar site name
+- Sidebar quote text
+- Sidebar divider style
+- Sidebar action icon visibility (reading mode / RSS / theme toggle / site overview)
+- Navigation labels, ordering, suffix characters, and visibility
 
-> ![Sidebar 分组截图](./theme-console/theme-console-sidebar.webp)
+> ![Sidebar group screenshot](./theme-console/theme-console-sidebar.webp)
 
 ### Home
 
-`Home` 负责首页展示相关配置：
+`Home` covers home page display configuration:
 
-- Hero 图片地址与说明文字
-- Hero 显隐
-- 首页导语主文案
-- 首页导语补充文案
-- 补充导语中的主链接与第二链接
+- Hero image URL and alt text
+- Hero visibility
+- Home intro lead text
+- Home intro supplementary text
+- Primary and secondary links in the intro
 
-> ![Home 分组截图](./theme-console/theme-console-home.webp)
+> ![Home group screenshot](./theme-console/theme-console-home.webp)
 
-首页补充导语仍采用固定句式，后台只开放了文案和入口选择，尽量保持首页结构稳定。当前可选入口包括 `archive`、`essay`、`bits`、`memo`、`about` 和 `tag`。
+The home supplementary intro still uses a fixed sentence pattern; the console only exposes the copy and entry-link choices, to keep the home page structure stable. Currently selectable entries include `archive`, `essay`, `bits`, `memo`, `about`, and `tag`.
 
 
 ### Inner Pages
 
-`Inner Pages` 负责内页层面的统一文案与显示策略：
+`Inner Pages` covers unified copy and display strategy for inner pages:
 
-- `/essay/` 页面主副标题
-- `/archive/` 页面主副标题
-- `/bits/` 页面主副标题
-- `/memo/` 页面主副标题
-- `/about/` 页面主副标题
-- 文章元信息是否显示日期、标签、字数、阅读时长
-- `/bits/` 默认作者名与头像
+- Primary and secondary titles for `/essay/`
+- Primary and secondary titles for `/archive/`
+- Primary and secondary titles for `/bits/`
+- Primary and secondary titles for `/memo/`
+- Primary and secondary titles for `/about/`
+- Whether article meta shows date, tags, word count, reading time
+- Default author name and avatar for `/bits/`
 
-> ![Inner Pages 分组截图](./theme-console/theme-console-inner-pages.webp)
+> ![Inner Pages group screenshot](./theme-console/theme-console-inner-pages.webp)
 
 
 ### Code
 
-- 是否在代码块中显示行号
+- Whether to show line numbers in code blocks
 
 ### Typography
 
-`Typography` 负责四个排版字体角色的选择：
+`Typography` covers the four typography font roles:
 
-- 正文字体（文章正文与标题）
-- 文案字体（导语、关于页等场景）
-- 等宽字体（代码块与行内代码）
-- 品牌字体（侧栏站点名与引言）
+- Body font (article body and headings)
+- Copy font (intro, about page, and similar)
+- Mono font (code blocks and inline code)
+- Brand font (sidebar site name and quote)
 
-保存后写入 `src/data/settings/ui.json`，下次构建生效。字体的来源、体积与添加自定义字体的方式见下文「排版字体」。
+After saving, this is written to `src/data/settings/ui.json` and takes effect on the next build. See "Typography fonts" below for font sources, sizes, and how to add custom fonts.
 
 
-## 排版字体
+## Typography fonts
 
-四个字体角色各自从一组字体卡片中选择：卡片以该字体实际渲染预览字样，并标注来源徽章，选中后卡片下方显示全称与体积详情，便于按需取舍。内置选项分三类来源：
+Each of the four font roles is chosen from a set of font cards. A card renders a preview sample in the actual font and shows a source badge; once selected, the full name and size details appear below the card so you can trade off as needed. Built-in options come from three source categories:
 
-- **系统字体**：使用访客设备上已有的字体，不产生下载。
-- **自托管字体**：字体文件随站点构建产物一并分发，访客不经过任何外部 CDN，页面不请求第三方。
-- **在线获取字体**：构建时从开源字体库（fontsource / Google Fonts）下载后自托管，页面同样零第三方请求，但构建机需要能访问对应字体源。
+- **System fonts**: use fonts already present on the visitor's device; no download.
+- **Self-hosted fonts**: the font files ship with the site build output, so visitors never hit an external CDN and the page makes no third-party requests.
+- **Fetched fonts**: at build time the font is downloaded from an open-source font library (fontsource / Google Fonts) and then self-hosted; the page still makes zero third-party requests, but the build machine must be able to reach the font source.
 
-中文字体单字重通常在 1 MB 以上，系统字体则零下载，可据此在观感与体积之间权衡。
+A single weight of a Chinese font is usually over 1 MB, while system fonts are zero-download, so you can weigh appearance against size accordingly.
 
-### 添加卡片列表以外的字体
+### Adding fonts outside the card list
 
-卡片选项来自字体注册表 `src/lib/fonts/registry.ts`。需要列表之外的字体时，在 `THEME_FONT_REGISTRY` 末尾补上这款字体的一段配置即可，选择卡片、校验与页面样式随之生效，无需改动其他文件。
+The card options come from the font registry `src/lib/fonts/registry.ts`. When you need a font beyond the list, append a configuration entry for it at the end of `THEME_FONT_REGISTRY`; the selection card, validation, and page styles then pick it up without touching other files.
 
-为保证构建可复现、页面无第三方请求，注册表只接受预先登记的字体，界面不支持直接填写任意字体名。每款字体按获取方式选择一种写法，各字段含义见文件内注释：
+To keep builds reproducible and pages free of third-party requests, the registry only accepts pre-registered fonts; the UI does not let you type an arbitrary font name directly. For each font, pick one write-up based on its acquisition method; the meaning of each field is documented in comments inside the file:
 
-| 获取方式 | 适用场景 | 关键字段 |
+| Acquisition | Use case | Key fields |
 |---|---|---|
-| `system` | 系统字体栈 | `fallbacks`；不产生下载 |
-| `astro-fonts-api` | 开源在线字体 | `provider`（`fontsource` 在中国大陆可用性较好 / `google` 需可访问 fonts.google.com）、`familyName`；中文字体须声明 `subsets`（如 `['chinese-simplified', 'latin']`），否则中文字形不会被打包 |
-| `astro-fonts-api` + `provider: 'local'` | 离线或无外网构建 | 字体文件放入 `src/assets/fonts/` 并填写 `localVariants`，构建不依赖网络 |
-| `subset-pipeline` | 需要中文子集化压缩 | 另需源字体、`scripts/font-subset.mjs` 与 `global.css` 配套，参照现有默认字体 |
+| `system` | System font stack | `fallbacks`; no download |
+| `astro-fonts-api` | Open-source online fonts | `provider` (`fontsource` has better availability in mainland China / `google` requires access to fonts.google.com), `familyName`; Chinese fonts must declare `subsets` (e.g. `['chinese-simplified', 'latin']`), otherwise Chinese glyphs will not be packaged |
+| `astro-fonts-api` + `provider: 'local'` | Offline or no-egress builds | Place the font files in `src/assets/fonts/` and fill in `localVariants`; the build does not depend on the network |
+| `subset-pipeline` | When Chinese subsetting is needed | Also requires the source font, `scripts/font-subset.mjs`, and `global.css` configuration; follow the existing default fonts |
 
-在线获取的字体若构建时下载失败，页面会自动回退到系统字体、构建不中断；运行 `SITE_URL=... npm run check:prod-artifacts` 会将这类静默降级报为显式错误。开发模式下切换这类字体后，需要重启开发服务器才能看到效果。
+If a fetched font fails to download at build time, the page silently falls back to a system font and the build does not abort; running `SITE_URL=... npm run check:prod-artifacts` reports such silent degradation as an explicit error. In dev mode, after switching such a font you must restart the dev server to see the effect.
 
 
-## 保存机制
+## Save mechanism
 
-- 保存按 `site / shell / home / page / ui` 分组回写，不直接修改模板源码
-- 多数字段提供即时预览或明确的页面对应关系
-- 保存前会执行字段校验
-- 保存时会附带版本信息，用于避免并发修改造成的静默覆盖
-- 写入过程包含失败回滚，避免多文件半成功状态
+- Saves are written back by group (`site / shell / home / page / ui`) without directly modifying template source code
+- Most fields provide instant preview or a clear page correspondence
+- Field validation runs before saving
+- Version information is attached on save to avoid silent overwrites from concurrent edits
+- The write process includes failure rollback to avoid a half-success state across multiple files
 
 ---
 
-以上内容覆盖了 Theme Console 当前常用的配置入口与保存机制。如果在使用时发现配置异常或保存问题，欢迎提交 Issue。
+The above covers the common configuration entry points and save mechanism of the Theme Console today. If you run into configuration or save issues while using it, feel free to open an Issue.

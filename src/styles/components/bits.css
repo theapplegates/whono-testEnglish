@@ -1,10 +1,10 @@
 /* Bits
-   只包含 /bits/ 页面相关样式，避免干扰通用列表。
+   Only contains styles for the /bits/ page, to avoid interfering with generic lists.
 */
 
 @import "./bit-card.css";
 
-/* Bits（絮语） */
+/* Bits */
 
 .bits-toolbar {
   display: flex;

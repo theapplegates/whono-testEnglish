@@ -1,7 +1,7 @@
 @import "./tokens.css";
 
 /* Admin Images Shared
-   负责 Theme / Content 共用的 image picker。
+   Handles the image picker shared by Theme / Content.
 */
 
 .admin-images-picker {

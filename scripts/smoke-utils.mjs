@@ -6,7 +6,7 @@ const distDir = path.resolve('dist');
 const smokeFixturePath = path.join(distDir, 'checks', 'markdown-smoke', 'index.html');
 const ADMIN_OVERVIEW_HEADER_PATTERN = new RegExp([
   '<h1\\b(?=[^>]*\\bclass="[^"]*\\bpage-title\\b[^"]*")[^>]*>\\s*Site Overview\\s*</h1>',
-  '<span\\b(?=[^>]*\\bclass="[^"]*\\bpage-subtitle\\b[^"]*")[^>]*>\\s*站点概览\\s*</span>'
+  '<span\\b(?=[^>]*\\bclass="[^"]*\\bpage-subtitle\\b[^"]*")[^>]*>\\s*Site overview\\s*</span>'
 ].join('\\s*'));
 const ADMIN_ROUTE_NAV_PATTERN = /<nav\b(?=[^>]*\bclass=(["'])[^"']*\badmin-route-nav\b[^"']*\1)[^>]*>/;
 export const DEV_ADMIN_UI_PREFERENCE_MARKERS = [
@@ -75,7 +75,7 @@ export const assertStaticUnsupportedApiShell = (label, body, expectedPath) => {
 export const assertAdminOverviewHeader = (label, body) => {
   expect(
     ADMIN_OVERVIEW_HEADER_PATTERN.test(body),
-    `${label} is missing the visible Site Overview heading and 站点概览 subtitle`
+    `${label} is missing the visible Site Overview heading and Site overview subtitle`
   );
 };
 

@@ -52,10 +52,10 @@ const getNextThemeMode = (mode: ThemeMode): ThemeMode => {
 
 const getThemeModeLabel = (mode: ThemeMode, theme: Theme): string => {
   if (mode === 'system') {
-    return `跟随系统（${theme === 'dark' ? '深色模式' : '浅色模式'}）`;
+    return `System (${theme === 'dark' ? 'dark mode' : 'light mode'})`;
   }
 
-  return theme === 'dark' ? '深色模式' : '浅色模式';
+  return theme === 'dark' ? 'dark mode' : 'light mode';
 };
 
 const setControlLabel = (element: HTMLElement, label: string) => {
@@ -93,7 +93,7 @@ const listenSystemThemeChange = (listener: () => void) => {
     return;
   }
 
-  // 兼容旧版 Safari / WebView 的 MediaQueryList 监听接口。
+  // Compatible with the legacy Safari / WebView MediaQueryList listener API.
   const legacyColorSchemeMq = colorSchemeMq as unknown as LegacyMediaQueryList;
   legacyColorSchemeMq.addListener?.(listener);
 };

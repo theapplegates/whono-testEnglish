@@ -1,5 +1,5 @@
 /* Admin Content Editor Page
-   承载 _edit 页面壳层、workspace 页头和文章信息入口；不承载 legacy 表单或 workspace 内部布局。
+   Holds the _edit page shell, workspace header, and article-info entry; does not hold legacy forms or workspace internal layout.
 */
 
 .admin-content-edit-page {

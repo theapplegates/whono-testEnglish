@@ -67,7 +67,7 @@ describe('about directives markdown transform', () => {
 
     expect(html.match(/<ul class="friend-list">/g)).toHaveLength(1);
     expect(html.match(/<li>/g)).toHaveLength(2);
-    expect(html.match(/<div class="qa-list" aria-label="常见问题">/g)).toHaveLength(1);
+    expect(html.match(/<div class="qa-list" aria-label="FAQ">/g)).toHaveLength(1);
     expect(html.match(/<details class="qa-item">/g)).toHaveLength(2);
   });
 
@@ -90,7 +90,7 @@ describe('about directives markdown transform', () => {
     expect(html).not.toContain('about-site-info__avatar');
     expect(html).not.toContain('about-site-info__eyebrow');
     expect(html).not.toContain('src="/blog/author/avatar.webp"');
-    expect(html).toContain('<dt class="about-site-info__field-label">名称</dt>');
+    expect(html).toContain('<dt class="about-site-info__field-label">Name</dt>');
     expect(html).toContain('<dd class="about-site-info__field-value">Whono</dd>');
     expect(html).toContain('href="https://astro.whono.me/"');
     expect(html).toContain('data-about-site-info-copy');
@@ -110,7 +110,7 @@ describe('about directives markdown transform', () => {
       ].join('\n')
     );
 
-    expect(html).toContain('<div class="qa-list" aria-label="常见问题">');
+    expect(html).toContain('<div class="qa-list" aria-label="FAQ">');
     expect(html).toContain('class="about-site-info"');
     expect(html).not.toContain('<p>:::</p>');
   });

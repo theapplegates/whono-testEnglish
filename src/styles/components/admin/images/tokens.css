@@ -1,5 +1,5 @@
 /* Admin Images Tokens
-   负责 browser / picker 共用的图片项交互 token。
+   Handles the image-item interaction tokens shared by the browser / picker.
  */
 
 .admin-images-console,

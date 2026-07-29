@@ -1,7 +1,7 @@
 @import "./tokens.css";
 
 /* Admin Images Base
-   负责根变量、共用降级与基础壳层。
+   Handles root variables, shared fallbacks, and the base shell.
 */
 
 .admin-images-console {

@@ -1,5 +1,5 @@
 /* Admin Content Editor Bits Workspace
-   bits 只编排业务区，编辑器骨架复用 shared editor shell。
+   bits only composes the business area; the editor skeleton reuses the shared editor shell.
 */
 
 .admin-content-editor--bits {

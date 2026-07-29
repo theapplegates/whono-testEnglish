@@ -25,7 +25,7 @@ const SOURCE_DIRS = [
   { dir: path.join(ROOT, 'src', 'pages'), exts: new Set(['.astro']) },
   { dir: path.join(ROOT, 'src', 'components'), exts: new Set(['.astro']) },
   { dir: path.join(ROOT, 'src', 'layouts'), exts: new Set(['.astro']) },
-  // Theme Console 可编辑文案（brandTitle/quote/导航 label/页面标题等）也会用公开字体渲染。
+  // Editable copy in the Theme Console (brandTitle/quote/nav labels/page titles, etc.) is also rendered with the public font.
   { dir: path.join(ROOT, 'src', 'data', 'settings'), exts: new Set(['.json']) }
 ];
 
@@ -98,7 +98,7 @@ const main = async () => {
     try {
       committed = await fs.readFile(OUTPUT_PATH, 'utf8');
     } catch (_) {
-      console.error('[check:font-charset] Missing charset file / 缺少字符集文件');
+      console.error('[check:font-charset] Missing charset file');
       console.error(`- expected path: ${OUTPUT_PATH}`);
       console.error('- fix: run `npm run font:build`');
       process.exit(1);
@@ -107,7 +107,7 @@ const main = async () => {
     const committedSet = new Set(committed.replace(/\n$/, ''));
     const missing = sorted.filter((ch) => !committedSet.has(ch));
     if (missing.length > 0) {
-      console.error('[check:font-charset] Charset is stale / 字符集已过期，字体子集缺少以下字符：');
+      console.error('[check:font-charset] Charset is stale; the font subset is missing these characters:');
       console.error(`- missing characters (${missing.length}): ${missing.join('')}`);
       console.error('- fix: run `npm run font:build` and commit the regenerated fonts.');
       process.exit(1);
@@ -115,14 +115,14 @@ const main = async () => {
 
     const stale = Array.from(committedSet).filter((ch) => !charset.has(ch));
     if (stale.length > 0) {
-      console.error('[check:font-charset] Charset has stale characters / 字符集含已不再使用的字符：');
+      console.error('[check:font-charset] Charset has stale characters no longer in use:');
       console.error(`- stale characters (${stale.length}): ${stale.join('')}`);
       console.error('- fix: run `npm run font:build` and commit the regenerated fonts.');
       process.exit(1);
     }
 
-    // stamp 由 font:subset 成功后写入（charset 文件的 sha256）：拦截“跑了 font:charset
-    // 却没跑 font:subset”的 woff2 过期状态——纯 txt 对比无法发现。
+    // The stamp is written after font:subset succeeds (the sha256 of the charset file): it catches the "ran font:charset
+    // but not font:subset" stale-woff2 state that a plain txt comparison cannot detect.
     const stampPath = path.join(path.dirname(OUTPUT_PATH), 'charset-common.sha256');
     let stamp = '';
     try {
@@ -132,7 +132,7 @@ const main = async () => {
     }
     const committedHash = createHash('sha256').update(committed).digest('hex');
     if (stamp !== committedHash) {
-      console.error('[check:font-charset] Font subsets are stale / 字体子集未随字符集重生成：');
+      console.error('[check:font-charset] Font subsets are stale (not regenerated with the charset):');
       console.error(`- expected stamp (${stampPath}): ${committedHash}`);
       console.error(`- actual stamp: ${stamp || '(missing)'}`);
       console.error('- fix: run `npm run font:subset` (or `npm run font:build`) and commit the regenerated fonts.');

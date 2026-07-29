@@ -43,25 +43,25 @@ export const GET: APIRoute = async ({ url }) => {
   const entryId = url.searchParams.get('entryId')?.trim() ?? '';
 
   if (!collection) {
-    return createJsonErrorResponse(400, ['查询参数缺少 collection']);
+    return createJsonErrorResponse(400, ['The query params are missing collection']);
   }
 
   if (!isAdminContentCollectionKey(collection)) {
     return createJsonErrorResponse(
       400,
-      [`不支持的 content collection：${collection}；仅支持 ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`]
+      [`Unsupported content collection: ${collection}; supported: ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`]
     );
   }
 
   if (!isAdminContentExportableCollectionKey(collection)) {
     return createJsonErrorResponse(
       400,
-      [getAdminContentCollectionCapability(collection).readonlyReason ?? `当前 collection 暂不支持导出：${collection}`]
+      [getAdminContentCollectionCapability(collection).readonlyReason ?? `The current collection does not support export: ${collection}`]
     );
   }
 
   if (!entryId) {
-    return createJsonErrorResponse(400, ['查询参数缺少 entryId']);
+    return createJsonErrorResponse(400, ['The query params are missing entryId']);
   }
 
   try {

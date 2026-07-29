@@ -1,5 +1,5 @@
 /* Admin Images Detail
-   负责详情区、badge、代码块与复制反馈。
+   Handles the detail area, badges, code blocks, and copy feedback.
 */
 
 .admin-images-browser__detail {
@@ -192,7 +192,7 @@
 }
 
 .admin-images-copy-btn::after {
-  content: '已复制';
+  content: 'Copied';
   position: absolute;
   top: 50%;
   right: calc(100% + 6px);

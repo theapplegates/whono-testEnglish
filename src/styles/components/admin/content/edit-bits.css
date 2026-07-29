@@ -1,5 +1,5 @@
 /* Admin Content Edit Bits
-   bits 工作台、卡片预览与图片行编辑私有样式。
+   Private styles for the bits workbench, card preview, and image-row editing.
 */
 
 @import "./editor/bits-workspace.css";

@@ -1,5 +1,5 @@
 /* Admin Content Editor Pane Content
-   承载正文编辑器、预览 scroller/prose 和空/错误内容态；不承载 data-layout/data-effective-view 覆盖。
+   Holds the body editor, preview scroller/prose, and empty/error content states; does not hold data-layout/data-effective-view overrides.
 */
 
 .admin-editor-shell__pane--body {
