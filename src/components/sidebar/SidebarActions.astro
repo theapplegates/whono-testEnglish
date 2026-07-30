@@ -9,6 +9,15 @@ type SidebarActionNavItem = {
   isActive: boolean;
 };
 
+type CommandAction = {
+  id: string;
+  name: string;
+  section: string;
+  keywords: string;
+  href?: string;
+  targetId?: string;
+};
+
 const {
   isAdminContext = false,
   isDev = false,
@@ -35,6 +44,7 @@ const {
 
 const mainSiteHomeLabel = 'Main site home';
 const showAdminUiPrefs = isAdminContext && isDev;
+const showCommandMenu = !isAdminContext;
 const getPublicNavPathBadge = (href: string): string => {
   try {
     const parsed = new URL(href, 'https://astro-whono.invalid');
@@ -47,6 +57,65 @@ const publicNavItems = navItems.map((item) => ({
   ...item,
   pathBadge: getPublicNavPathBadge(item.href)
 }));
+
+const commandActions: CommandAction[] = publicNavItems.map((item, index) => ({
+  id: `navigation-${index}`,
+  name: item.label,
+  section: 'Navigation',
+  keywords: `${item.label} ${item.pathBadge}`,
+  href: item.href
+}));
+
+if (!publicNavItems.some((item) => item.href === homeHref)) {
+  commandActions.unshift({
+    id: 'navigation-home',
+    name: 'Home',
+    section: 'Navigation',
+    keywords: 'home start main',
+    href: homeHref
+  });
+}
+
+if (showRssLink) {
+  commandActions.push({
+    id: 'navigation-rss',
+    name: 'RSS feed',
+    section: 'Navigation',
+    keywords: 'rss feed subscribe updates',
+    href: rssHref
+  });
+}
+
+if (showReaderToggle) {
+  commandActions.push({
+    id: 'appearance-reading-mode',
+    name: 'Toggle reading mode',
+    section: 'Appearance',
+    keywords: 'reading reader focus distraction',
+    targetId: 'reader-toggle'
+  });
+}
+
+if (showThemeToggle) {
+  commandActions.push({
+    id: 'appearance-theme',
+    name: 'Change color theme',
+    section: 'Appearance',
+    keywords: 'theme dark light system appearance',
+    targetId: 'theme-toggle'
+  });
+}
+
+const deploymentBase = import.meta.env.BASE_URL ?? '/';
+const normalizedBase = deploymentBase.endsWith('/') ? deploymentBase : `${deploymentBase}/`;
+const commandMenuScriptHref = `${normalizedBase}scripts/kbar-command-menu.js`;
+const commandMenuImportMap = JSON.stringify({
+  imports: {
+    react: 'https://esm.sh/react@18.3.1',
+    'react-dom': 'https://esm.sh/react-dom@18.3.1',
+    'react-dom/client': 'https://esm.sh/react-dom@18.3.1/client'
+  }
+});
 ---
 
 <div class="sidebar-actions">
@@ -79,6 +148,21 @@ const publicNavItems = navItems.map((item) => ({
         </ul>
       </div>
     </details>
+  ) : null}
+
+  {showCommandMenu ? (
+    <>
+      <div data-kbar-root data-kbar-actions={JSON.stringify(commandActions)}></div>
+      <button
+        class="icon-button command-menu-toggle sidebar-action--rail-hidden"
+        type="button"
+        aria-label="Open command menu"
+        data-tooltip="Command menu (⌘K / Ctrl+K)"
+        data-kbar-toggle
+      >
+        <UiIcon name="search" class="icon" />
+      </button>
+    </>
   ) : null}
 
   {showReaderToggle ? (
@@ -134,3 +218,162 @@ const publicNavItems = navItems.map((item) => ({
 
   {showAdminUiPrefs ? <AdminUiPrefsCard /> : null}
 </div>
+
+{showCommandMenu ? (
+  <>
+    <script is:inline type="importmap" set:html={commandMenuImportMap}></script>
+    <script is:inline type="module" src={commandMenuScriptHref}></script>
+  </>
+) : null}
+
+<style is:global>
+  [data-kbar-root] {
+    display: contents;
+  }
+
+  .whono-kbar__positioner {
+    z-index: 1000 !important;
+    padding: min(18vh, 140px) 16px 16px !important;
+    background: rgba(28, 25, 23, 0.34) !important;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  .whono-kbar__animator {
+    width: min(680px, calc(100vw - 32px)) !important;
+    max-width: 680px !important;
+    overflow: hidden !important;
+    color: var(--text) !important;
+    background: var(--bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 24px 70px rgba(28, 25, 23, 0.28) !important;
+  }
+
+  .whono-kbar__search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .whono-kbar__search-icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    color: var(--muted);
+  }
+
+  .whono-kbar__search {
+    min-width: 0;
+    flex: 1;
+    padding: 18px 0;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    background: transparent;
+    font: inherit;
+    font-size: 17px;
+  }
+
+  .whono-kbar__search::placeholder {
+    color: var(--faint);
+  }
+
+  .whono-kbar__escape,
+  .whono-kbar__shortcuts kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    min-height: 24px;
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    background: var(--panel);
+    font-family: var(--font-copy);
+    font-size: 11px;
+    line-height: 1;
+    box-shadow: 0 1px 0 var(--border);
+  }
+
+  .whono-kbar__section {
+    padding: 14px 16px 6px;
+    color: var(--faint);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .whono-kbar__result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 2px 8px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .whono-kbar__result.is-active {
+    background: var(--panel);
+  }
+
+  .whono-kbar__result-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .whono-kbar__shortcuts {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 4px;
+  }
+
+  .whono-kbar__empty {
+    padding: 28px 16px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @supports (color: color-mix(in srgb, black 50%, white)) {
+    .whono-kbar__positioner {
+      background: color-mix(in srgb, var(--text) 28%, transparent) !important;
+    }
+
+    .whono-kbar__animator {
+      box-shadow: 0 24px 70px color-mix(in srgb, var(--text) 24%, transparent) !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .whono-kbar__positioner {
+      padding: calc(10vh + env(safe-area-inset-top)) 12px 12px !important;
+    }
+
+    .whono-kbar__animator {
+      width: calc(100vw - 24px) !important;
+      border-radius: 14px !important;
+    }
+
+    .whono-kbar__escape {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .whono-kbar__positioner,
+    .whono-kbar__animator,
+    .whono-kbar__result {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
