@@ -1,7 +1,7 @@
 const rawSiteUrl = (process.env.SITE_URL ?? '').trim();
 const siteUrl = rawSiteUrl ? rawSiteUrl.replace(/\/+$/, '') : '';
 const hasSiteUrl = siteUrl.length > 0;
-const fallbackSiteUrl = 'https://example.invalid';
+const fallbackSiteUrl = 'https://whono.paulapplegate.com';
 const siteUrlWarningFlag = 'ASTRO_WHONO_SITE_URL_WARNING_SHOWN';
 
 if (

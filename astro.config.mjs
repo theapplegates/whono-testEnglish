@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import svelte from '@astrojs/svelte';
+import tailwindcss from '@tailwindcss/vite';
 import { createPublicMarkdownConfig } from './src/plugins/markdown-pipeline.mjs';
 import {
   getSelectedAstroApiFonts,
@@ -15,9 +16,9 @@ const SITEMAP_ROUTE_ROOTS = new Set(['about', 'admin', 'archive', 'bits', 'check
 const rawDeploymentBase = process.env.ASTRO_WHONO_BASE_PATH ?? '/';
 const trimmedDeploymentBase = String(rawDeploymentBase).trim();
 
-// Git Bash's MSYS path conversion rewrites values like "/blog" into "C:/Program Files/Git/blog",
-// causing obscure "Missing parameter" prerender errors; fail early with a readable error at config time.
-// Workaround: prefix the command with MSYS_NO_PATHCONV=1 (or MSYS2_ENV_CONV_EXCL=ASTRO_WHONO_BASE_PATH).
+// Git Bash 的 MSYS 路径转换会把 "/blog" 这类值改写成 "C:/Program Files/Git/blog"，
+// 导致深处的 "Missing parameter" 预渲染错误；在配置期直接报可读错误。
+// 规避：命令前加 MSYS_NO_PATHCONV=1（或 MSYS2_ENV_CONV_EXCL=ASTRO_WHONO_BASE_PATH）。
 if (/[:\s]/.test(trimmedDeploymentBase)) {
   throw new Error(
     `Invalid ASTRO_WHONO_BASE_PATH "${rawDeploymentBase}": looks like a filesystem path, not a URL base. ` +
@@ -66,9 +67,8 @@ const integrations = [
   ...(hasSiteUrl ? [sitemap({ filter: (page) => !isExcludedSitemapEntry(page) })] : [])
 ];
 
-// When ui.typography selects astro-fonts-api fonts, the Astro Fonts API downloads them for
-// self-hosting at build time; only selected entries are downloaded, so the fonts array is empty
-// under the default config. ui.json is read manually at config time (font changes require a dev restart).
+// ui.typography 选中 astro-fonts-api 字体时，构建期由 Astro Fonts API 下载自托管；
+// 只下载被选中的条目，默认配置下 fonts 数组为空。config 期手读 ui.json（dev 下改字体需重启）。
 const FONT_PROVIDERS = {
   google: () => fontProviders.google(),
   fontsource: () => fontProviders.fontsource()
@@ -114,11 +114,40 @@ const fonts = selectedApiFonts.flatMap((entry) => {
 });
 
 export default defineConfig({
+  // Native CSP configuration (Astro 6+)
+  security: {
+    csp: {
+      scriptDirective: {
+        resources: [
+          "'self'",
+          "https://esm.sh"
+        ]
+      },
+      styleDirective: {
+        resources: [
+          "'self'"
+        ]
+      },
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data: https:",
+        "font-src 'self' data:",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "frame-ancestors 'none'",
+        "form-action 'self'"
+      ]
+    }
+  },
+
+
   // Required for RSS generation. Prefer SITE_URL; fallback keeps build passing.
   site: site.url,
   base: deploymentBase,
-  // DEV uses server output so the Theme Console /api/admin/settings/ can read and write;
-  // the build phase switches back to static so /admin/ stays a read-only notice and the path is not treated as a production public API.
+
+  // DEV 使用 server output 允许 Theme Console 的 /api/admin/settings/ 处理读写；
+  // 构建阶段回到 static，让 /admin/ 保持只读提示，并避免把该路径当作生产公开 API。
   output: isProductionBuild ? 'static' : 'server',
   integrations,
   ...(fonts.length ? { fonts } : {}),
@@ -127,9 +156,14 @@ export default defineConfig({
     inlineStylesheets: 'auto'
   },
   vite: {
-    // Snapshot of the cssVariable actually registered into fonts[] for this start. BaseLayout filters <Font> rendering from this:
-    // when ui.json hot-changes a font in dev (the config-time snapshot lacks the new entry), skip rendering instead of letting Astro throw
-    // FontFamilyNotFound and crash the whole site; it takes effect after a restart.
+    plugins: [tailwindcss()],
+    ssr: {
+      // Prevents Vite from parsing internal relative paths in the package during SSR/Build
+      noExternal: ['astro-cloudinary', '@radix-ui/*']
+    },
+    // 本次启动实际注册进 fonts[] 的 cssVariable 快照。BaseLayout 据此过滤 <Font> 渲染：
+    // dev 下 ui.json 热改字体（config 期快照不含新条目）时跳过渲染而非让 Astro 抛
+    // FontFamilyNotFound 崩掉全站；重启后生效。
     define: {
       'import.meta.env.ASTRO_WHONO_FONT_CSS_VARIABLES': JSON.stringify(
         fonts.map((font) => font.cssVariable).join(',')
@@ -150,7 +184,12 @@ export default defineConfig({
         '@codemirror/state',
         '@codemirror/view',
         '@lezer/highlight'
-      ]
+      ],
+      exclude: ['astro-cloudinary']
+    },
+    build: {
+      cssMinify: true,
+      minify: 'esbuild'
     }
   },
   markdown: createPublicMarkdownConfig({ base: deploymentBase })

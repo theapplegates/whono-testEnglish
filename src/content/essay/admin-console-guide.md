@@ -7,6 +7,8 @@ tags: [ "Admin Console", "Guide" ]
 draft: false
 ---
 
+
+
 The Admin Console at `/admin/` is the local admin entry point for taking over site configuration and content maintenance after forking, cloning, or self-hosting.
 
 It is not a standalone CMS; save operations write back to the in-repo configuration or content files, so it works well with Git: you can diff before and after a change and treat rollbacks like any normal project file.
