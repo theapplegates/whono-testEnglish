@@ -1,9 +1,9 @@
+import tailwindcss from '@tailwindcss/postcss'; // OR import tailwindcss from '@tailwindcss/postcss';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import svelte from '@astrojs/svelte';
-import tailwindcss from '@tailwindcss/vite';
 import { createPublicMarkdownConfig } from './src/plugins/markdown-pipeline.mjs';
 import {
   getSelectedAstroApiFonts,
