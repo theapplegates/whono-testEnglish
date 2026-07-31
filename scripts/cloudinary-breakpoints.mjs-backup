@@ -56,14 +56,14 @@ function parseArgs(argv) {
   let sizesArg = null;
   let devicesArg = null;
   for (const arg of argv.slice(2)) {
-	if (arg === "--") continue;
-	if (arg.startsWith("--sizes=")) {
-	  sizesArg = arg.slice("--sizes=".length);
-	} else if (arg.startsWith("--devices=")) {
-	  devicesArg = arg.slice("--devices=".length);
-	} else if (!filePath) {
-	  filePath = arg;
-	}
+    if (arg === "--") continue;
+    if (arg.startsWith("--sizes=")) {
+      sizesArg = arg.slice("--sizes=".length);
+    } else if (arg.startsWith("--devices=")) {
+      devicesArg = arg.slice("--devices=".length);
+    } else if (!filePath) {
+      filePath = arg;
+    }
   }
   return { filePath, sizesArg, devicesArg };
 }
@@ -85,22 +85,22 @@ function buildDevicesString(selected) {
 /** Parse a compact "minWidth|vw|aspectRatio,..." string into device specs. */
 function parseDevicesString(input) {
   return input
-	.split(",")
-	.map((part) => {
-	  const seg = part.trim().split("|");
-	  return {
-		minWidth: Number(seg[0]),
-		vw: Number(seg[1]),
-		aspectRatio: (seg[2] ?? "").trim() || "original",
-	  };
-	})
-	.filter(
-	  (d) =>
-		Number.isFinite(d.minWidth) &&
-		d.minWidth >= 0 &&
-		Number.isFinite(d.vw) &&
-		d.vw > 0
-	);
+    .split(",")
+    .map((part) => {
+      const seg = part.trim().split("|");
+      return {
+        minWidth: Number(seg[0]),
+        vw: Number(seg[1]),
+        aspectRatio: (seg[2] ?? "").trim() || "original",
+      };
+    })
+    .filter(
+      (d) =>
+        Number.isFinite(d.minWidth) &&
+        d.minWidth >= 0 &&
+        Number.isFinite(d.vw) &&
+        d.vw > 0
+    );
 }
 
 /**
@@ -110,14 +110,14 @@ function parseDevicesString(input) {
  */
 async function chooseDevices(sizesArg, devicesArg) {
   if (devicesArg) {
-	const parsed = parseDevicesString(devicesArg);
-	if (parsed.length > 0) return { mode: "art", devices: parsed };
+    const parsed = parseDevicesString(devicesArg);
+    if (parsed.length > 0) return { mode: "art", devices: parsed };
   }
   if (sizesArg) return { mode: "sizes", sizes: sizesArg };
 
   console.log("\nArt direction (check the device ranges to include):");
   DEVICE_PRESETS.forEach((d, i) => {
-	console.log(`  [x] ${i + 1}) ${d.label}   ${d.aspectRatio}   ${d.vw}vw`);
+    console.log(`  [x] ${i + 1}) ${d.label}   ${d.aspectRatio}   ${d.vw}vw`);
   });
 
   if (!stdin.isTTY) return { mode: "art", devices: DEVICE_PRESETS };
@@ -125,26 +125,26 @@ async function chooseDevices(sizesArg, devicesArg) {
   const rl = readline.createInterface({ input: stdin, output: stdout });
   let answer;
   try {
-	answer = await rl.question(
-	  "Enter numbers to include, comma-separated (Enter = all, or type a custom sizes): "
-	);
+    answer = await rl.question(
+      "Enter numbers to include, comma-separated (Enter = all, or type a custom sizes): "
+    );
   } finally {
-	rl.close();
+    rl.close();
   }
   const trimmed = answer.trim();
   if (!trimmed) return { mode: "art", devices: DEVICE_PRESETS };
 
   const nums = trimmed.split(",").map((t) => t.trim()).filter(Boolean);
   if (nums.length > 0 && nums.every((n) => /^\d+$/.test(n))) {
-	const selected = [];
-	for (const n of nums) {
-	  const idx = Number(n) - 1;
-	  if (idx >= 0 && idx < DEVICE_PRESETS.length) {
-		const d = DEVICE_PRESETS[idx];
-		if (!selected.includes(d)) selected.push(d);
-	  }
-	}
-	if (selected.length > 0) return { mode: "art", devices: selected };
+    const selected = [];
+    for (const n of nums) {
+      const idx = Number(n) - 1;
+      if (idx >= 0 && idx < DEVICE_PRESETS.length) {
+        const d = DEVICE_PRESETS[idx];
+        if (!selected.includes(d)) selected.push(d);
+      }
+    }
+    if (selected.length > 0) return { mode: "art", devices: selected };
   }
   // Not a number list -> treat as a custom sizes string (simple responsive).
   return { mode: "sizes", sizes: trimmed };
@@ -161,9 +161,9 @@ function derivePublicId(filePath) {
 async function readBreakpoints() {
   if (!existsSync(BREAKPOINTS_FILE)) return {};
   try {
-	return JSON.parse(await readFile(BREAKPOINTS_FILE, "utf8"));
+    return JSON.parse(await readFile(BREAKPOINTS_FILE, "utf8"));
   } catch (err) {
-	throw new Error(`Could not parse ${BREAKPOINTS_FILE}: ${err.message}`);
+    throw new Error(`Could not parse ${BREAKPOINTS_FILE}: ${err.message}`);
   }
 }
 
@@ -175,10 +175,10 @@ async function writeBreakpoints(data) {
 async function main() {
   const { filePath, sizesArg, devicesArg } = parseArgs(process.argv);
   if (!filePath) {
-	console.error(
-	  "Usage: npm run cloudinary:breakpoints -- <path-to-image> [--devices=\"...\"] [--sizes=\"...\"]"
-	);
-	process.exit(1);
+    console.error(
+      "Usage: npm run cloudinary:breakpoints -- <path-to-image> [--devices=\"...\"] [--sizes=\"...\"]"
+    );
+    process.exit(1);
   }
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -186,16 +186,16 @@ async function main() {
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
   if (!cloudName || !apiKey || !apiSecret) {
-	console.error(
-	  "Missing Cloudinary credentials. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET in .env."
-	);
-	process.exit(1);
+    console.error(
+      "Missing Cloudinary credentials. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET in .env."
+    );
+    process.exit(1);
   }
 
   const absPath = resolve(ROOT, filePath);
   if (!existsSync(absPath)) {
-	console.error(`Image not found: ${absPath}`);
-	process.exit(1);
+    console.error(`Image not found: ${absPath}`);
+    process.exit(1);
   }
 
   const publicId = derivePublicId(filePath);
@@ -205,30 +205,30 @@ async function main() {
   console.log(`Uploading "${absPath}" as public_id "${publicId}"...`);
 
   const result = await cloudinary.uploader.upload(absPath, {
-	public_id: publicId,
-	unique_filename: false,
-	overwrite: true,
-	resource_type: "image",
-	responsive_breakpoints: [
-	  {
-		create_derived: false,
-		breakpoints: {
-		  min_width: 200,
-		  max_width: 2000,
-		  max_images: 4,
-		  auto_optimal_breakpoints: true,
-		},
-	  },
-	],
+    public_id: publicId,
+    unique_filename: false,
+    overwrite: true,
+    resource_type: "image",
+    responsive_breakpoints: [
+      {
+        create_derived: false,
+        breakpoints: {
+          min_width: 200,
+          max_width: 2000,
+          max_images: 10,
+          auto_optimal_breakpoints: true,
+        },
+      },
+    ],
   });
 
   const widths =
-	result.responsive_breakpoints?.[0]?.breakpoints?.map((bp) => bp.width) ?? [];
+    result.responsive_breakpoints?.[0]?.breakpoints?.map((bp) => bp.width) ?? [];
 
   if (widths.length === 0) {
-	console.error("Cloudinary returned no breakpoints. Full response:");
-	console.error(JSON.stringify(result, null, 2));
-	process.exit(1);
+    console.error("Cloudinary returned no breakpoints. Full response:");
+    console.error(JSON.stringify(result, null, 2));
+    process.exit(1);
   }
 
   const sorted = [...new Set(widths)].sort((a, b) => a - b);
@@ -238,7 +238,7 @@ async function main() {
   await writeBreakpoints(data);
 
   console.log(
-	`Wrote ${sorted.length} breakpoints for "${publicId}" to ${relative(ROOT, BREAKPOINTS_FILE)}`
+    `Wrote ${sorted.length} breakpoints for "${publicId}" to ${relative(ROOT, BREAKPOINTS_FILE)}`
   );
   console.log(sorted.join(", "));
 
@@ -255,34 +255,34 @@ async function main() {
 
   let snippet;
   if (choice.mode === "art") {
-	const devicesStr = buildDevicesString(choice.devices);
-	const sizesForReference = buildSizes(choice.devices);
-	snippet = [
-	  `<Picture`,
-	  `  src="${publicId}"`,
-	  `  alt="TODO: describe this image"`,
-	  `  width="${intrinsicWidth}"`,
-	  `  height="${intrinsicHeight}"`,
-	  `  devices="${devicesStr}"`,
-	  `  breakpoints="${sorted.join(", ")}"`,
-	  `  picture-class="responsive-picture"`,
-	  `/>`,
-	].join("\n");
-	console.log(`sizes (derived): ${sizesForReference}`);
-	console.log(`devices: ${devicesStr}`);
+    const devicesStr = buildDevicesString(choice.devices);
+    const sizesForReference = buildSizes(choice.devices);
+    snippet = [
+      `<Picture`,
+      `  src="${publicId}"`,
+      `  alt="TODO: describe this image"`,
+      `  width="${intrinsicWidth}"`,
+      `  height="${intrinsicHeight}"`,
+      `  devices="${devicesStr}"`,
+      `  breakpoints="${sorted.join(", ")}"`,
+      `  picture-class="responsive-picture"`,
+      `/>`,
+    ].join("\n");
+    console.log(`sizes (derived): ${sizesForReference}`);
+    console.log(`devices: ${devicesStr}`);
   } else {
-	snippet = [
-	  `<Picture`,
-	  `  src="${publicId}"`,
-	  `  alt="TODO: describe this image"`,
-	  `  width="${intrinsicWidth}"`,
-	  `  height="${intrinsicHeight}"`,
-	  `  sizes="${choice.sizes}"`,
-	  `  breakpoints="${sorted.join(", ")}"`,
-	  `  picture-class="responsive-picture"`,
-	  `/>`,
-	].join("\n");
-	console.log(`sizes: ${choice.sizes}`);
+    snippet = [
+      `<Picture`,
+      `  src="${publicId}"`,
+      `  alt="TODO: describe this image"`,
+      `  width="${intrinsicWidth}"`,
+      `  height="${intrinsicHeight}"`,
+      `  sizes="${choice.sizes}"`,
+      `  breakpoints="${sorted.join(", ")}"`,
+      `  picture-class="responsive-picture"`,
+      `/>`,
+    ].join("\n");
+    console.log(`sizes: ${choice.sizes}`);
   }
 
   console.log("\nPaste this into your .mdx post (replace the alt text).");
@@ -293,7 +293,7 @@ async function main() {
   console.log(snippet);
   console.log("");
   console.log(
-	"Note: the import path is relative to src/content/blog/<slug>/index.mdx;"
+    "Note: the import path is relative to src/content/blog/<slug>/index.mdx;"
   );
   console.log("adjust the ../ count if your post lives at a different depth.");
   console.log("");

@@ -250,15 +250,12 @@ async function main() {
   const intrinsicWidth = result.width;
   const intrinsicHeight = result.height;
   const choice = await chooseDevices(sizesArg, devicesArg);
-  // Import path is relative to a typical post at src/content/blog/<slug>/index.mdx.
-  const importLine = `import Picture from "../../../components/Picture.astro";`;
-
   let snippet;
   if (choice.mode === "art") {
     const devicesStr = buildDevicesString(choice.devices);
     const sizesForReference = buildSizes(choice.devices);
     snippet = [
-      `<Picture`,
+      `<cloudinary-picture`,
       `  src="${publicId}"`,
       `  alt="TODO: describe this image"`,
       `  width="${intrinsicWidth}"`,
@@ -268,11 +265,11 @@ async function main() {
       `  picture-class="responsive-picture"`,
       `/>`,
     ].join("\n");
-    console.log(`sizes (derived): ${sizesForReference}`);
+    console.log(`sizes (derived, for reference): ${sizesForReference}`);
     console.log(`devices: ${devicesStr}`);
   } else {
     snippet = [
-      `<Picture`,
+      `<cloudinary-picture`,
       `  src="${publicId}"`,
       `  alt="TODO: describe this image"`,
       `  width="${intrinsicWidth}"`,
@@ -285,17 +282,10 @@ async function main() {
     console.log(`sizes: ${choice.sizes}`);
   }
 
-  console.log("\nPaste this into your .mdx post (replace the alt text).");
-  console.log("Put the import once at the top of the file, after the frontmatter;");
-  console.log("then place the <Picture> tag where the image should appear:\n");
-  console.log(importLine);
-  console.log("");
+  console.log("\nPaste this into a .md post (replace the alt text).");
+  console.log("No imports needed -- <cloudinary-picture> is rendered at build");
+  console.log("time into a <picture> with JXL -> AVIF -> WebP sources.\n");
   console.log(snippet);
-  console.log("");
-  console.log(
-    "Note: the import path is relative to src/content/blog/<slug>/index.mdx;"
-  );
-  console.log("adjust the ../ count if your post lives at a different depth.");
   console.log("");
 }
 

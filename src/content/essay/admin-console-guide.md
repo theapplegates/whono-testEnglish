@@ -7,6 +7,37 @@ tags: [ "Admin Console", "Guide" ]
 draft: false
 ---
 
+<cloudinary-picture
+  src="assets/images/eugeniya-belova-zGThWNmhK58-unsplash"
+  alt="TODO: describe this image"
+  width="4000"
+  height="6000"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 215, 303, 380, 441, 496, 566, 614, 662, 720, 773, 860, 900, 975, 997, 1000"
+  picture-class="responsive-picture"
+/>
+
+<cloudinary-picture
+  src="assets/images/nathan-dumlao-x6qRS-wPaHo-unsplash"
+  alt="TODO: describe this image"
+  width="3392"
+  height="5088"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 298, 396, 554, 556, 610, 751, 763, 768, 882, 931, 981, 999, 1000"
+  picture-class="responsive-picture"
+/>
+
+<cloudinary-picture
+  src="assets/images/clay-banks-QnYqq6tlVq8-unsplash"
+  alt="TODO: describe this image"
+  width="3400"
+  height="2267"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 303, 542, 618, 858, 973, 980, 1000"
+  picture-class="responsive-picture"
+/>
+
+
 
 
 The Admin Console at `/admin/` is the local admin entry point for taking over site configuration and content maintenance after forking, cloning, or self-hosting.

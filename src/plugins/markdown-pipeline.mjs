@@ -11,6 +11,7 @@ import {
 import { rehypeAboutDirectives, remarkAboutDirectives } from './about-directives.mjs';
 import remarkCallout from './remark-callout.mjs';
 import { sanitizeSchema } from './sanitize-schema.mjs';
+import { rehypeCloudinaryPicture } from './rehype-cloudinary-picture.mjs';
 import shikiToolbar from './shiki-toolbar.mjs';
 
 export const markdownMathOptions = Object.freeze({
@@ -273,6 +274,9 @@ export const createProjectMarkdownRehypePlugins = ({ aboutBase = '/', aboutEnabl
     base: aboutBase,
     ...(aboutEnabled === undefined ? {} : { enabled: aboutEnabled })
   }],
+  // Render <cloudinary-picture> (from .md posts) into a <picture> before
+  // rehype-sanitize sees it; the emitted tags are already in the schema.
+  rehypeCloudinaryPicture,
   [rehypeSanitize, sanitizeSchema],
   rehypeKatex
 ];
