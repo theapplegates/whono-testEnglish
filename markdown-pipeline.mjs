@@ -139,7 +139,6 @@ export const publicMarkdownRehypeSegments = Object.freeze([
       'rehype-raw',
       'rehypeRestoreMarkdownMathBoundary',
       'rehype-about-directives',
-      'rehype-cloudinary-picture',
       'rehype-sanitize',
       'rehype-katex'
     ]
@@ -202,11 +201,6 @@ export const previewMarkdownRehypeSegments = Object.freeze([
   {
     id: 'about-directives',
     plugins: ['rehype-about-directives'],
-    before: 'cloudinary-picture'
-  },
-  {
-    id: 'cloudinary-picture',
-    plugins: ['rehype-cloudinary-picture'],
     before: 'sanitize'
   },
   {

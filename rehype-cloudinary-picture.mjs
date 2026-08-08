@@ -120,19 +120,6 @@ const buildPicture = (props) => {
   const sizes = props.sizes;
   const extraTransformations = parseTransformations(props.transformations);
 
-  if (!Number.isFinite(intrinsicWidth) || intrinsicWidth <= 0) {
-    throw new Error(
-      `[cloudinary-picture] a positive numeric width is required for src="${src}". ` +
-        `The breakpoints script prints the intrinsic width -- copy it into the width attribute.`
-    );
-  }
-  if (!Number.isFinite(intrinsicHeight) || intrinsicHeight <= 0) {
-    throw new Error(
-      `[cloudinary-picture] a positive numeric height is required for src="${src}". ` +
-        `The breakpoints script prints the intrinsic height -- copy it into the height attribute.`
-    );
-  }
-
   const parsedBreakpointWidths = parseBreakpoints(props.breakpoints);
   if (parsedBreakpointWidths.length === 0) {
     throw new Error(
@@ -201,7 +188,6 @@ const buildPicture = (props) => {
     sizes: fallbackSizes,
     loading: props.loading || "lazy",
     decoding: props.decoding || "async",
-    ...(props.fetchpriority ? { fetchpriority: props.fetchpriority } : {}),
   });
 
   const pictureClass = props["picture-class"] ?? props.pictureClass;
@@ -226,7 +212,6 @@ const extractProps = (node) => {
     pictureClass: p.pictureClass,
     loading: p.loading,
     decoding: p.decoding,
-    fetchpriority: p.fetchpriority,
     transformations: p.transformations,
   };
 };

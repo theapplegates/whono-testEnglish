@@ -263,7 +263,7 @@ async function main() {
       `  devices="${devicesStr}"`,
       `  breakpoints="${sorted.join(", ")}"`,
       `  picture-class="responsive-picture"`,
-      `></cloudinary-picture>`,
+      `/>`,
     ].join("\n");
     console.log(`sizes (derived, for reference): ${sizesForReference}`);
     console.log(`devices: ${devicesStr}`);
@@ -277,7 +277,7 @@ async function main() {
       `  sizes="${choice.sizes}"`,
       `  breakpoints="${sorted.join(", ")}"`,
       `  picture-class="responsive-picture"`,
-      `></cloudinary-picture>`,
+      `/>`,
     ].join("\n");
     console.log(`sizes: ${choice.sizes}`);
   }

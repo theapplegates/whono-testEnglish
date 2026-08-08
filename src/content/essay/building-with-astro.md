@@ -7,6 +7,17 @@ tags: ["Astro", "Web Development", "Tutorial"]
 draft: false
 ---
 
+<cloudinary-picture
+  src="assets/images/wallace-henry--uKWSU9q47w-unsplash"
+  alt="TODO: describe this image"
+  width="5357"
+  height="3421"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 350, 539, 661, 770, 868, 959, 961, 1000"
+  picture-class="responsive-picture">
+  </cloudinary-picture>
+
+
 Astro is a modern web framework built for content-heavy sites that need strong performance without giving up developer ergonomics.
 
 ## Why Astro?

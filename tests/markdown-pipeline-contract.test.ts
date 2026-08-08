@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
+import { rehypeCloudinaryPicture } from '../src/plugins/rehype-cloudinary-picture.mjs';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import remarkSmartypants from 'remark-smartypants';
@@ -95,6 +96,7 @@ describe('markdown pipeline contract', () => {
         'rehype-raw',
         'rehypeRestoreMarkdownMathBoundary',
         'rehype-about-directives',
+        'rehype-cloudinary-picture',
         'rehype-sanitize',
         'rehype-katex'
       ]
@@ -132,9 +134,10 @@ describe('markdown pipeline contract', () => {
     expect(pluginOf(rehypePlugins[2])).toBe(rehypeRestoreMarkdownMathBoundary);
     expect(pluginOf(rehypePlugins[3])).toBe(rehypeAboutDirectives);
     expect(optionsOf(rehypePlugins[3])).toEqual({ base: '/blog/', enabled: true });
-    expect(pluginOf(rehypePlugins[4])).toBe(rehypeSanitize);
-    expect(optionsOf(rehypePlugins[4])).toBe(sanitizeSchema);
-    expect(pluginOf(rehypePlugins[5])).toBe(rehypeKatex);
+    expect(pluginOf(rehypePlugins[4])).toBe(rehypeCloudinaryPicture);
+    expect(pluginOf(rehypePlugins[5])).toBe(rehypeSanitize);
+    expect(optionsOf(rehypePlugins[5])).toBe(sanitizeSchema);
+    expect(pluginOf(rehypePlugins[6])).toBe(rehypeKatex);
   });
 
   it('keeps Shiki themes and toolbar transformer in one public factory', () => {
@@ -151,7 +154,8 @@ describe('markdown pipeline contract', () => {
     expect(previewSegmentIndex('code-highlighting')).toBeLessThan(previewSegmentIndex('raw-html'));
     expect(previewSegmentIndex('raw-html')).toBeLessThan(previewSegmentIndex('sanitize'));
     expect(previewSegmentIndex('preview-local-image-src')).toBeLessThan(previewSegmentIndex('sanitize'));
-    expect(previewSegmentIndex('about-directives')).toBeLessThan(previewSegmentIndex('sanitize'));
+    expect(previewSegmentIndex('about-directives')).toBeLessThan(previewSegmentIndex('cloudinary-picture'));
+    expect(previewSegmentIndex('cloudinary-picture')).toBeLessThan(previewSegmentIndex('sanitize'));
     expect(previewSegmentIndex('sanitize')).toBeLessThan(previewSegmentIndex('katex'));
     expect(previewSegmentIndex('katex')).toBeLessThan(previewSegmentIndex('preview-stringify'));
   });
