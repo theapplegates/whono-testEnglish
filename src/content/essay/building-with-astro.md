@@ -14,9 +14,8 @@ draft: false
   height="3421"
   devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
   breakpoints="50, 350, 539, 661, 770, 868, 959, 961, 1000"
-  picture-class="responsive-picture"
-  >
-  </cloudinary-picture>
+  picture-class="responsive-picture">
+</cloudinary-picture>
 
 
 Astro is a modern web framework built for content-heavy sites that need strong performance without giving up developer ergonomics.
