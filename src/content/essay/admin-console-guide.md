@@ -7,6 +7,18 @@ tags: [ "Admin Console", "Guide" ]
 draft: false
 ---
 
+
+<cloudinary-picture
+  src="assets/images/b-s-Q2Z6BnGn0ys-unsplash"
+  alt="TODO: describe this image"
+  width="6016"
+  height="4016"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 386, 627, 905, 954, 1000"
+  picture-class="responsive-picture"
+></cloudinary-picture>
+
+
 <cloudinary-picture
   src="assets/images/eugeniya-belova-zGThWNmhK58-unsplash"
   alt="TODO: describe this image"
