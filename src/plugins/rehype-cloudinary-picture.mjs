@@ -15,6 +15,9 @@
  *
  * Attributes arrive as strings from markdown (rehype-raw coerces numeric-looking
  * ones like width/height to numbers); the parsers below handle both.
+ *
+ * When CLOUDINARY_CLOUD_NAME is not set, <cloudinary-picture> elements are left
+ * as-is (no crash) so the build succeeds without Cloudinary credentials.
  */
 const FORMAT_ORDER = ["jxl", "avif", "webp"];
 const MIME_TYPES = { jxl: "image/jxl", avif: "image/avif", webp: "image/webp" };
@@ -146,9 +149,16 @@ const buildPicture = (props) => {
 
   const cloudName = getCloudName();
   if (!cloudName) {
-    throw new Error(
-      "[cloudinary-picture] a Cloudinary cloud name is required. Set CLOUDINARY_CLOUD_NAME (or PUBLIC_CLOUDINARY_CLOUD_NAME) in .env."
-    );
+    // No cloud name configured — return a plain <img> placeholder so the build
+    // succeeds without Cloudinary credentials (e.g. local dev, CI without secrets).
+    return element("img", {
+      src: String(src || ""),
+      alt: String(alt),
+      width: intrinsicWidth,
+      height: intrinsicHeight,
+      loading: props.loading || "lazy",
+      decoding: props.decoding || "async",
+    });
   }
 
   const breakpointWidths = [...new Set([...parsedBreakpointWidths, intrinsicWidth])]
