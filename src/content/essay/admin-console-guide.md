@@ -16,8 +16,7 @@ draft: false
   devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
   breakpoints="50, 386, 627, 905, 954, 1000"
   picture-class="responsive-picture"
-></cloudinary-picture>
-
+  />
 
 <cloudinary-picture
   src="assets/images/eugeniya-belova-zGThWNmhK58-unsplash"
