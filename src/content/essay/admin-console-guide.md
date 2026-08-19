@@ -8,6 +8,20 @@ draft: false
 ---
 
 <cloudinary-picture
+  src="assets/images/clay-banks-QnYqq6tlVq8-unsplash"
+  alt="TODO: describe this image"
+  width="3400"
+  height="2267"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 303, 542, 618, 858, 973, 980, 1000"
+  picture-class="responsive-picture"
+/>
+
+
+
+
+
+<cloudinary-picture
   src="assets/images/eugeniya-belova-zGThWNmhK58-unsplash"
   alt="TODO: describe this image"
   width="4000"
