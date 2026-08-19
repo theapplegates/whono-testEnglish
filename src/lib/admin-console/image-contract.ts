@@ -1,5 +1,5 @@
-export type AdminImageOrigin = 'public' | 'src/assets' | 'src/content';
-export type AdminImageBrowseGroup = 'all' | 'essay' | 'bits' | 'memo' | 'assets' | 'pages' | 'uncategorized';
+export type AdminImageOrigin = 'public' | 'src/assets' | 'src/content' | 'cloud';
+export type AdminImageBrowseGroup = 'all' | 'essay' | 'bits' | 'memo' | 'assets' | 'pages' | 'uncategorized' | 'cloud';
 export type AdminImageScopeKey = 'recent';
 
 export const ADMIN_IMAGE_DEFAULT_LIST_LIMIT = 20;
@@ -11,7 +11,8 @@ export const ADMIN_IMAGE_BROWSE_GROUP_LABELS = {
   memo: 'Memo',
   assets: 'Config assets',
   pages: 'Page images',
-  uncategorized: 'Uncategorized'
+  uncategorized: 'Uncategorized',
+  cloud: '云端图片'
 } as const satisfies Record<AdminImageBrowseGroup, string>;
 
 export const ADMIN_IMAGE_BROWSE_GROUP_ORDER = [
@@ -21,7 +22,8 @@ export const ADMIN_IMAGE_BROWSE_GROUP_ORDER = [
   'memo',
   'assets',
   'pages',
-  'uncategorized'
+  'uncategorized',
+  'cloud'
 ] as const satisfies readonly AdminImageBrowseGroup[];
 
 export const ADMIN_IMAGE_SCOPE_LABELS = {
@@ -29,7 +31,7 @@ export const ADMIN_IMAGE_SCOPE_LABELS = {
 } as const satisfies Record<AdminImageScopeKey, string>;
 
 export const isAdminImageOrigin = (value: unknown): value is AdminImageOrigin =>
-  value === 'public' || value === 'src/assets' || value === 'src/content';
+  value === 'public' || value === 'src/assets' || value === 'src/content' || value === 'cloud';
 
 export const isAdminImageBrowseGroup = (value: unknown): value is AdminImageBrowseGroup =>
   typeof value === 'string' && value in ADMIN_IMAGE_BROWSE_GROUP_LABELS;

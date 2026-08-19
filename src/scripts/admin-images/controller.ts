@@ -12,6 +12,7 @@ import {
 import { type AdminImageClientMeta } from '../admin-shared/image-client';
 import {
   copyText,
+  deleteCloudImage,
   fetchList,
   fetchMetaByPath,
   navigateToRefresh,
@@ -157,7 +158,7 @@ export const initAdminImagesConsole = () => {
     return;
   }
 
-  const hasLocalBrowse = Array.isArray(bootstrap.browseIndex);
+  let hasLocalBrowse = Array.isArray(bootstrap.browseIndex);
   let busy = false;
   let requestToken = 0;
   let currentTotalPages = 1;
@@ -185,7 +186,8 @@ export const initAdminImagesConsole = () => {
   const icons = {
     copy: getIconMarkup('copy'),
     link: getIconMarkup('link'),
-    eye: getIconMarkup('eye')
+    eye: getIconMarkup('eye'),
+    trash: getIconMarkup('trash')
   };
 
   const getCurrentPageSize = (): number =>
@@ -243,7 +245,8 @@ export const initAdminImagesConsole = () => {
       emptyEl,
       items: currentItems,
       selectedPath,
-      detailMetaCache
+      detailMetaCache,
+      scope: currentState.scope
     });
   };
 
@@ -258,6 +261,7 @@ export const initAdminImagesConsole = () => {
       copyIcon: icons.copy,
       linkIcon: icons.link,
       eyeIcon: icons.eye,
+      trashIcon: icons.trash,
       largeFileThreshold: LARGE_FILE_THRESHOLD
     });
   };
@@ -849,6 +853,21 @@ export const initAdminImagesConsole = () => {
       }
     } catch (error) {
       setStatus('error', error instanceof Error ? error.message : `Copy ${copyLabel} failed`);
+    }
+  });
+
+  detailEl.addEventListener('click', async (event) => {
+    const deleteBtn = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('.admin-images-delete-btn') : null;
+    if (!(deleteBtn instanceof HTMLButtonElement)) return;
+    const key = deleteBtn.dataset.cloudKey?.trim() ?? '';
+    if (!key) return;
+    if (!hasLocalBrowse || !bootstrap.browseIndex) return;
+    try {
+      await deleteCloudImage(bootstrap.cloudDeleteEndpoint, key);
+      hasLocalBrowse = false;
+      await loadList({ updateLocation: true });
+    } catch (error) {
+      setStatus('error', error instanceof Error ? error.message : 'Delete failed');
     }
   });
 

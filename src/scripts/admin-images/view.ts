@@ -1,5 +1,5 @@
 import { formatAdminImageBytes, type AdminImageClientMeta } from '../admin-shared/image-client';
-import { type AdminImageBrowseItem, type AdminImageFilterOption } from './types';
+import { type AdminImageBrowseItem, type AdminImageFilterOption, type AdminImageScope } from './types';
 
 const escapeHtml = (value: string): string =>
   value
@@ -12,6 +12,7 @@ const escapeHtml = (value: string): string =>
 const getOriginBadgeLabel = (origin: AdminImageBrowseItem['origin']): string => {
   if (origin === 'public') return 'Public asset';
   if (origin === 'src/assets') return 'Site asset';
+  if (origin === 'cloud') return 'Cloud asset';
   return 'Content attachment';
 };
 
@@ -29,6 +30,9 @@ const encodeMarkdownImageDestination = (value: string): string =>
 const getMarkdownReference = (
   item: AdminImageBrowseItem
 ): { value: string } | { disabledReason: string } => {
+  if (item.origin === 'cloud') {
+    return { value: `![](${item.path})` };
+  }
   if (item.origin === 'public' && item.path.startsWith('public/')) {
     const webPath = `/${item.path.slice('public/'.length)}`;
     return { value: `![](${encodeMarkdownImageDestination(webPath)})` };
@@ -192,13 +196,15 @@ export const renderItems = ({
   emptyEl,
   items,
   selectedPath,
-  detailMetaCache
+  detailMetaCache,
+  scope
 }: {
   resultListEl: HTMLUListElement;
   emptyEl: HTMLElement;
   items: readonly AdminImageBrowseItem[];
   selectedPath: string | null;
   detailMetaCache: ReadonlyMap<string, AdminImageClientMeta>;
+  scope: AdminImageScope;
 }) => {
   if (items.length === 0) {
     resultListEl.innerHTML = '';
@@ -209,18 +215,18 @@ export const renderItems = ({
   const isGridView = resultListEl.dataset.view === 'grid';
   const includeOwnerInItemMeta = isGridView;
   emptyEl.hidden = true;
-  resultListEl.innerHTML = items
-    .map((item, index) => {
-      const overlayMeta = isGridView ? getCardOverlayMetaText(item, detailMetaCache) : '';
-      const itemMeta = getItemMetaText(item, detailMetaCache, {
-        includeOwner: includeOwnerInItemMeta
-      });
-      const titleId = `admin-images-card-title-${index}`;
-      const pathId = `admin-images-card-path-${index}`;
-      const descriptionId = `admin-images-card-description-${index}`;
-      const descriptionText = getCardDescriptionText(item, detailMetaCache);
 
-      return `
+  const renderItem = (item: AdminImageBrowseItem, index: number) => {
+    const overlayMeta = isGridView ? getCardOverlayMetaText(item, detailMetaCache) : '';
+    const itemMeta = getItemMetaText(item, detailMetaCache, {
+      includeOwner: includeOwnerInItemMeta
+    });
+    const titleId = `admin-images-card-title-${index}`;
+    const pathId = `admin-images-card-path-${index}`;
+    const descriptionId = `admin-images-card-description-${index}`;
+    const descriptionText = getCardDescriptionText(item, detailMetaCache);
+
+    return `
         <li class="admin-images-browser__item-shell">
           <button
             class="admin-images-browser__card${selectedPath === item.path ? ' admin-images-browser__card--active' : ''}"
@@ -236,15 +242,15 @@ export const renderItems = ({
             <span id="${descriptionId}" class="admin-sr-only admin-images-browser__card-description">${escapeHtml(descriptionText)}</span>
             <span class="admin-images-browser__thumb">
               ${item.previewSrc
-            ? `<img src="${escapeHtml(item.previewSrc)}" alt="" loading="lazy" decoding="async" />`
-            : '<span class="admin-images-browser__thumb-fallback">No preview yet</span>'}
+          ? `<img src="${escapeHtml(item.previewSrc)}" alt="" loading="lazy" decoding="async" />`
+          : '<span class="admin-images-browser__thumb-fallback">No preview yet</span>'}
               ${overlayMeta
-            ? `
+          ? `
                   <span class="admin-images-browser__thumb-overlay" aria-hidden="true">
                     <span class="admin-images-browser__thumb-meta">${escapeHtml(overlayMeta)}</span>
                   </span>
                 `
-            : ''}
+          : ''}
             </span>
             <span class="admin-images-browser__item-copy">
               <span class="admin-images-browser__item-head">
@@ -259,8 +265,26 @@ export const renderItems = ({
           </button>
         </li>
       `;
-    })
-    .join('');
+  };
+
+  if (scope !== 'recent') {
+    const localItems = items.filter((item) => item.origin !== 'cloud');
+    const cloudItems = items.filter((item) => item.origin === 'cloud');
+    const hasMultipleSources = localItems.length > 0 && cloudItems.length > 0;
+
+    if (hasMultipleSources) {
+      const localHtml = localItems.map((item, index) => renderItem(item, index)).join('');
+      const cloudHtml = cloudItems.map((item, index) => renderItem(item, localItems.length + index)).join('');
+      resultListEl.innerHTML =
+        `<li class="admin-images-browser__source-heading" aria-label="本地图片"></li>` +
+        localHtml +
+        `<li class="admin-images-browser__source-heading" aria-label="云端图片"></li>` +
+        cloudHtml;
+      return;
+    }
+  }
+
+  resultListEl.innerHTML = items.map((item, index) => renderItem(item, index)).join('');
 };
 
 const getRenderedCard = (resultListEl: HTMLUListElement, assetPath: string): HTMLButtonElement | null =>
@@ -360,6 +384,7 @@ export const renderDetail = ({
   copyIcon,
   linkIcon,
   eyeIcon,
+  trashIcon,
   largeFileThreshold
 }: {
   detailEl: HTMLElement;
@@ -370,6 +395,7 @@ export const renderDetail = ({
   copyIcon: string;
   linkIcon: string;
   eyeIcon: string;
+  trashIcon: string;
   largeFileThreshold: number;
 }) => {
   if (!item) {
@@ -483,6 +509,17 @@ export const renderDetail = ({
               ${eyeIcon}
               Open in a new browser tab
             </a>`
+        : ''}
+          ${item.origin === 'cloud' && trashIcon
+        ? `<button
+              class="admin-btn admin-btn--ghost admin-images-delete-btn"
+              type="button"
+              data-cloud-key="${escapeHtml(item.cloudKey ?? item.path)}"
+              aria-label="Delete cloud image"
+            >
+              ${trashIcon}
+              Delete
+            </button>`
         : ''}
         </div>
       </div>
