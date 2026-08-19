@@ -335,7 +335,7 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
 
     const loadDraftController = async () => {
       if (!controllerPromise) {
-        controllerPromise = Promise.all([ensureDraftFragment(), import('../scripts/bits-draft.ts')])
+        controllerPromise = Promise.all([ensureDraftFragment(), import('../scripts/bits-draft')])
           .then(([, mod]) => {
             const controller = mod.initBitsDraft();
             if (!controller) throw new Error('bits draft controller init failed');

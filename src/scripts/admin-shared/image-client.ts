@@ -57,6 +57,7 @@ export const getAdminImageOriginLabel = (origin: AdminImageClientMeta['origin'])
   if (origin === 'public') return 'Public asset';
   if (origin === 'src/assets') return 'Site asset';
   if (origin === 'src/content') return 'Article attachment';
+  if (origin === 'cloud') return '云端资源';
   return 'Local asset';
 };
 
@@ -64,7 +65,7 @@ export const formatAdminImageMetaSummary = (
   meta: Pick<AdminImageClientMeta, 'kind' | 'origin' | 'width' | 'height' | 'size'>
 ): string => {
   if (meta.kind === 'remote') {
-    return 'Remote image; local dimensions are not read automatically';
+    return '远程图片；不自动读取本地尺寸';
   }
 
   const originLabel = getAdminImageOriginLabel(meta.origin);

@@ -194,10 +194,8 @@ const createCloudObjectKey = ({
 };
 
 const createPublicUrl = (publicBaseUrl: URL, key: string): string => {
-  const url = new URL(publicBaseUrl);
-  const basePath = url.pathname.replace(/\/+$/, '');
-  url.pathname = `${basePath}/${encodeS3Path(key)}`;
-  return url.toString();
+  const basePath = (publicBaseUrl.origin + publicBaseUrl.pathname).replace(/\/+$/, '');
+  return `${basePath}/${encodeS3Path(key)}`;
 };
 
 const toAdminImageCloudListItem = (

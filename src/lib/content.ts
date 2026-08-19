@@ -44,13 +44,13 @@ export const getPageSlice = <T>(items: T[], currentPage: number, pageSize: numbe
   return items.slice(start, start + pageSize);
 };
 
-const isContentSourceFilePresent = <K extends CollectionKey>(entry: CollectionEntry<K>): boolean => {
+const isContentSourceFilePresent = (entry: CollectionEntryWithSourcePath): boolean => {
   if (!import.meta.env.DEV) return true;
 
   // DEV-only synchronous existsSync guard, serving only public pages / public content getters to avoid showing deleted entries under dev preview.
   // The Admin Content list has migrated to the source-file index layer and neither depends on nor spreads this filter.
   // If synchronous IO cost becomes visible as public content scales, it should be handled as a separate public-side optimization.
-  const filePath = (entry as CollectionEntryWithSourcePath).filePath;
+  const filePath = entry.filePath;
   return typeof filePath !== 'string' || filePath.length === 0 || existsSync(filePath);
 };
 
@@ -67,11 +67,13 @@ export const buildPaginatedPaths = (totalPages: number) => {
 export async function getPublished<K extends CollectionKey>(
   name: K,
   opts: GetPublishedOptions<K> = {}
-) {
+): Promise<CollectionEntry<K>[]> {
   const prod = import.meta.env.PROD;
   const includeDraft = opts.includeDraft ?? !prod;
   const filter = includeDraft ? undefined : (entry: CollectionEntry<K>) => !isDraftContentEntry(entry);
-  const items = (await getCollection(name, filter)).filter(isContentSourceFilePresent);
+  const items: CollectionEntry<K>[] = (await getCollection(name, filter)).filter(
+    (entry: CollectionEntry<K>): entry is CollectionEntry<K> => isContentSourceFilePresent(entry)
+  );
 
   if (!opts.orderBy) return items;
   return items.slice().sort(opts.orderBy);
