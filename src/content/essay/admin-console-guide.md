@@ -7,6 +7,15 @@ tags: [ "Admin Console", "Guide" ]
 draft: false
 ---
 
+<cloudinary-picture
+  src="assets/images/art002e009288orig-1"
+  alt="TODO: describe this image"
+  width="5568"
+  height="3712"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 572, 954, 1000"
+  picture-class="responsive-picture" >
+</cloudinary-picture>
 
 <cloudinary-picture
   src="assets/images/b-s-Q2Z6BnGn0ys-unsplash"
