@@ -1,4 +1,3 @@
-import { unified } from '@astrojs/markdown-remark';
 import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -140,7 +139,6 @@ export const publicMarkdownRehypeSegments = Object.freeze([
       'rehype-raw',
       'rehypeRestoreMarkdownMathBoundary',
       'rehype-about-directives',
-      'rehype-cloudinary-picture',
       'rehype-sanitize',
       'rehype-katex'
     ]
@@ -203,11 +201,6 @@ export const previewMarkdownRehypeSegments = Object.freeze([
   {
     id: 'about-directives',
     plugins: ['rehype-about-directives'],
-    before: 'cloudinary-picture'
-  },
-  {
-    id: 'cloudinary-picture',
-    plugins: ['rehype-cloudinary-picture'],
     before: 'sanitize'
   },
   {
@@ -288,12 +281,8 @@ export const createProjectMarkdownRehypePlugins = ({ aboutBase = '/', aboutEnabl
   rehypeKatex
 ];
 
-// 顶层 markdown.remarkPlugins/rehypePlugins 自 Astro 6.4 起弃用(Astro 7 默认处理器
-// 切换为 Sätteri),插件改为传给显式 unified() 处理器;gfm/smartypants 不传,保持内建默认。
 export const createPublicMarkdownConfig = ({ base = '/' } = {}) => ({
-  processor: unified({
-    remarkPlugins: createProjectMarkdownRemarkPlugins(),
-    rehypePlugins: createProjectMarkdownRehypePlugins({ aboutBase: base })
-  }),
+  remarkPlugins: createProjectMarkdownRemarkPlugins(),
+  rehypePlugins: createProjectMarkdownRehypePlugins({ aboutBase: base }),
   shikiConfig: createMarkdownShikiConfig()
 });
