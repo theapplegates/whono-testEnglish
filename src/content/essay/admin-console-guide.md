@@ -8,14 +8,26 @@ draft: false
 ---
 
 <cloudinary-picture
+  src="assets/images/dmytro-koplyk-d7SvifDMI1Y-unsplash"
+  alt="TODO: describe this image"
+  width="3501"
+  height="2801"
+  devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
+  breakpoints="50, 403, 637, 823, 985, 1000"
+  picture-class="responsive-picture"
+  />
+
+
+<cloudinary-picture
   src="assets/images/art002e009288orig-1"
   alt="TODO: describe this image"
   width="5568"
   height="3712"
   devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
   breakpoints="50, 572, 954, 1000"
-  picture-class="responsive-picture" />
-
+  picture-class="responsive-picture"
+  />
+  
 <cloudinary-picture
   src="assets/images/b-s-Q2Z6BnGn0ys-unsplash"
   alt="TODO: describe this image"
@@ -23,7 +35,8 @@ draft: false
   height="4016"
   devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
   breakpoints="50, 386, 627, 905, 954, 1000"
-  picture-class="responsive-picture" />
+  picture-class="responsive-picture"
+  />
 
 <cloudinary-picture
   src="assets/images/clay-banks-QnYqq6tlVq8-unsplash"
