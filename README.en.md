@@ -6,6 +6,7 @@
 
 **✨ astro-whono supports visual writing and live preview in the local admin console**
 
+A test line to simulate a file change.
 A minimal two-column Astro theme for personal writing and lightweight publishing.
 
 ## Links
