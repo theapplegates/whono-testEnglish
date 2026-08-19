@@ -14,8 +14,7 @@ draft: false
   height="3712"
   devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
   breakpoints="50, 572, 954, 1000"
-  picture-class="responsive-picture" >
-</cloudinary-picture>
+  picture-class="responsive-picture" />
 
 <cloudinary-picture
   src="assets/images/b-s-Q2Z6BnGn0ys-unsplash"
@@ -24,8 +23,7 @@ draft: false
   height="4016"
   devices="1200|40|original,992|60|16:9,768|70|4:3,0|100|1:1"
   breakpoints="50, 386, 627, 905, 954, 1000"
-  picture-class="responsive-picture"
-  />
+  picture-class="responsive-picture" />
 
 <cloudinary-picture
   src="assets/images/clay-banks-QnYqq6tlVq8-unsplash"
